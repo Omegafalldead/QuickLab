@@ -3,416 +3,385 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuickLab — Criação de Sites para Pequenas Empresas</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23000'/%3E%3Cpath d='M30 30 L50 20 L70 30 L70 60 Q50 80 30 60 Z' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M45 38 L55 38 L55 32 L45 32 Z' fill='%23fff'/%3E%3C/svg%3E">
+  <title>QuickLab — Criação de Sites e Aplicativos</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23000'/%3E%3Cpath d='M30 30 L50 20 L70 30 L70 60 Q50 80 30 60 Z' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: #fafafa;
-      color: #1a1a1a;
-      overflow-x: hidden;
-    }
-    .container { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',-apple-system,sans-serif;background:#fafafa;color:#1a1a1a;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    ::selection{background:#000;color:#fff}
+    .container{max-width:1120px;margin:0 auto;padding:0 24px}
 
-    /* ===== ANIMATIONS ===== */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInLeft {
-      from { opacity: 0; transform: translateX(-30px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes fadeInRight {
-      from { opacity: 0; transform: translateX(30px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes whatsappPulse {
-      0% { box-shadow: 0 0 0 0 rgba(37,211,102,.5); }
-      70% { box-shadow: 0 0 0 16px rgba(37,211,102,0); }
-      100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
-    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeRight{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.4)}70%{box-shadow:0 0 0 14px rgba(37,211,102,0)}}
+    @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-    .reveal { opacity: 0; transform: translateY(40px); transition: all .7s cubic-bezier(.22,1,.36,1); }
-    .reveal.show { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: .1s; }
-    .reveal-delay-2 { transition-delay: .2s; }
-    .reveal-delay-3 { transition-delay: .3s; }
-    .reveal-delay-4 { transition-delay: .4s; }
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}
 
-    /* ===== NAV ===== */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 16px 0;
-      background: rgba(250,250,250,.8); backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(0,0,0,.06);
-      transition: padding .3s;
-    }
-    nav.scrolled { padding: 10px 0; }
-    nav .container { display: flex; align-items: center; justify-content: space-between; }
-    nav .logo {
-      font-size: 1.3rem; font-weight: 800; color: #000; text-decoration: none;
-      letter-spacing: -.5px;
-    }
-    nav .logo span { font-weight: 300; color: #aaa; }
-    nav .nav-links { display: flex; align-items: center; gap: 28px; }
-    nav .nav-links a { color: #666; text-decoration: none; font-size: .85rem; font-weight: 500; transition: color .2s; position: relative; }
-    nav .nav-links a::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
-      background: #000; transition: width .25s;
-    }
-    nav .nav-links a:hover { color: #000; }
-    nav .nav-links a:hover::after { width: 100%; }
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 0;transition:all .35s;background:transparent}
+    nav.solid{background:rgba(250,250,250,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,0,0,.05)}
+    nav .container{display:flex;align-items:center;justify-content:space-between}
+    nav .logo{font-size:1.2rem;font-weight:800;color:#000;text-decoration:none;letter-spacing:-.4px}
+    nav .logo b{font-weight:300;color:#999}
+    nav .links{display:flex;align-items:center;gap:24px}
+    nav .links a{color:#666;text-decoration:none;font-size:.82rem;font-weight:500;transition:color .2s}
+    nav .links a:hover{color:#000}
+    nav .links .btn-nav{background:#000;color:#fff;padding:9px 22px;border-radius:8px;font-weight:600}
+    nav .links .btn-nav:hover{background:#222;transform:translateY(-1px)}
 
-    /* ===== BUTTONS ===== */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 24px; border-radius: 10px;
-      font-weight: 600; font-size: .85rem; text-decoration: none;
-      transition: all .3s cubic-bezier(.22,1,.36,1); border: none; cursor: pointer;
-      position: relative; overflow: hidden;
-    }
-    .btn-primary { background: #000; color: #fff; }
-    .btn-primary:hover { background: #222; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
-    .btn-outline { border: 1.5px solid #ddd; color: #333; background: transparent; }
-    .btn-outline:hover { border-color: #000; background: #f5f5f5; transform: translateY(-2px); }
-    .btn-whatsapp {
-      background: #25D366; color: #fff;
-      animation: whatsappPulse 2s infinite;
-    }
-    .btn-whatsapp:hover { background: #1ebe5d; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(37,211,102,.4); animation: none; }
+    /* HERO */
+    .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;background:#fafafa}
+    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:100px;border:1px solid rgba(0,0,0,.08);font-size:.7rem;font-weight:600;color:#888;letter-spacing:.5px;text-transform:uppercase;margin-bottom:28px}
+    .hero-tag .dot{width:6px;height:6px;border-radius:50%;background:#25D366;animation:pulse 2s infinite}
+    .hero h1{font-size:3.4rem;font-weight:800;line-height:1.15;letter-spacing:-1.2px;margin-bottom:20px}
+    .hero p.sub{font-size:1.05rem;color:#666;line-height:1.75;max-width:460px;margin-bottom:36px}
+    .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
 
-    /* ===== HERO ===== */
-    .hero {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      padding: 120px 0 80px; position: relative; overflow: hidden;
-    }
-    .hero::before {
-      content: ''; position: absolute; top: -30%; right: -20%; width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(0,0,0,.02) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero::after {
-      content: ''; position: absolute; bottom: -20%; left: -15%; width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(37,211,102,.03) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero .container { max-width: 800px; text-align: center; position: relative; z-index: 1; }
-    .hero .badge {
-      display: inline-block; padding: 6px 18px; border-radius: 100px;
-      font-size: .7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      background: rgba(0,0,0,.04); color: #888; margin-bottom: 24px;
-      animation: fadeInUp .8s .2s both;
-    }
-    .hero h1 {
-      font-size: 3rem; font-weight: 700; line-height: 1.5; letter-spacing: normal;
-      animation: fadeInUp .8s .3s both;
-    }
-    .hero .subtitle {
-      font-size: 1.1rem; line-height: 1.8; color: #666;
-      margin: 20px auto 36px; max-width: 540px;
-      animation: fadeInUp .8s .4s both;
-    }
-    .hero .hero-actions {
-      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-      animation: fadeInUp .8s .5s both;
-    }
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:10px;font-weight:600;font-size:.88rem;text-decoration:none;border:none;cursor:pointer;transition:all .25s cubic-bezier(.16,1,.3,1)}
+    .btn-dark{background:#000;color:#fff}
+    .btn-dark:hover{background:#222;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+    .btn-ghost{background:transparent;color:#555;border:1px solid #ddd}
+    .btn-ghost:hover{border-color:#000;color:#000;transform:translateY(-2px)}
+    .btn-wpp{background:#25D366;color:#fff}
+    .btn-wpp:hover{background:#1ebe5d;transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.3)}
 
-    /* ===== SECTION COMMON ===== */
-    section { padding: 120px 0; }
-    .section-label {
-      display: inline-block; font-size: .65rem; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: #aaa; margin-bottom: 16px;
-      position: relative;
-    }
-    .section-label::after {
-      content: ''; position: absolute; bottom: -6px; left: 0; width: 24px; height: 2px;
-      background: #000; border-radius: 1px;
-    }
-    section h2 {
-      font-size: 2rem; font-weight: 700; letter-spacing: normal; line-height: 1.5;
-      margin-bottom: 16px;
-    }
-    section .lead {
-      color: #666; font-size: 1rem; line-height: 1.65; max-width: 520px;
-    }
+    .hero-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:40px;position:relative}
+    .hero-card::before{content:'';position:absolute;inset:-1px;border-radius:20px;background:linear-gradient(135deg,rgba(0,0,0,.04),transparent);pointer-events:none}
+    .hero-card .screen{background:#111;border-radius:12px;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;margin-bottom:24px;position:relative;overflow:hidden}
+    .hero-card .screen::before{content:'';position:absolute;top:0;left:0;right:0;height:28px;background:#1a1a1a;display:flex;align-items:center;padding:0 12px}
+    .hero-card .screen .dots{position:absolute;top:9px;left:12px;display:flex;gap:5px}
+    .hero-card .screen .dots span{width:8px;height:8px;border-radius:50%}
+    .hero-card .screen .dots span:nth-child(1){background:#ff5f57}
+    .hero-card .screen .dots span:nth-child(2){background:#febc2e}
+    .hero-card .screen .dots span:nth-child(3){background:#28c840}
+    .hero-card .screen .mock{margin-top:20px;font-size:1.4rem;font-weight:700;letter-spacing:-.5px}
+    .hero-card .screen .submock{font-size:.7rem;color:#666;margin-top:4px}
+    .hero-card .meta{display:flex;gap:24px}
+    .hero-card .meta-item{text-align:center;flex:1}
+    .hero-card .meta-item .val{font-size:1.4rem;font-weight:800;letter-spacing:-.5px}
+    .hero-card .meta-item .label{font-size:.7rem;color:#888;margin-top:2px}
 
-    /* ===== EXPERIENCE ===== */
-    #sobre { background: #fff; position: relative; }
-    .exp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 48px; }
-    .exp-card {
-      border: 1px solid rgba(0,0,0,.06); border-radius: 16px; padding: 32px 28px;
-      transition: all .35s cubic-bezier(.22,1,.36,1); position: relative;
-      background: #fff; cursor: default;
-    }
-    .exp-card:hover {
-      border-color: rgba(0,0,0,.15); transform: translateY(-4px);
-      box-shadow: 0 20px 48px rgba(0,0,0,.06);
-    }
-    .exp-card .icon {
-      width: 44px; height: 44px; border-radius: 12px; background: #f5f5f5;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; margin-bottom: 16px; transition: background .3s;
-    }
-    .exp-card:hover .icon { background: #e8e8e8; }
-    .exp-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
-    .exp-card p { color: #666; font-size: .85rem; line-height: 1.7; }
+    /* MARQUEE */
+    .marquee{padding:40px 0;border-top:1px solid rgba(0,0,0,.05);border-bottom:1px solid rgba(0,0,0,.05);overflow:hidden;background:#fff}
+    .marquee-inner{display:flex;width:200%;animation:marquee 20s linear infinite}
+    .marquee-item{flex:1;display:flex;align-items:center;justify-content:center;gap:12px;padding:0 32px;white-space:nowrap;color:#bbb;font-size:.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+    .marquee-item .sep{color:#ddd}
 
-    /* ===== SERVICES ===== */
-    #servicos { background: #fff; }
-    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
-    .service-card {
-      border: 1px solid rgba(0,0,0,.06); border-radius: 16px; padding: 36px 28px;
-      transition: all .35s cubic-bezier(.22,1,.36,1); background: #fff;
-      text-align: center; position: relative;
-    }
-    .service-card:hover {
-      border-color: rgba(0,0,0,.15); transform: translateY(-4px);
-      box-shadow: 0 20px 48px rgba(0,0,0,.06);
-    }
-    .service-card .icon {
-      width: 56px; height: 56px; border-radius: 16px; background: #f5f5f5;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; margin: 0 auto 20px; transition: all .3s;
-    }
-    .service-card:hover .icon { background: #e8e8e8; transform: scale(1.05); }
-    .service-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
-    .service-card p { color: #666; font-size: .85rem; line-height: 1.7; }
+    /* SECTIONS */
+    section{padding:110px 0}
+    .section-tag{font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+    .section-tag::before{content:'';width:20px;height:2px;background:#000;border-radius:1px}
+    section h2{font-size:2.2rem;font-weight:800;letter-spacing:-.8px;line-height:1.25;margin-bottom:14px}
+    section .lead{color:#666;font-size:.95rem;line-height:1.7;max-width:520px}
 
-    /* ===== PROCESS ===== */
-    #processo { position: relative; }
-    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }
-    .process-step {
-      text-align: center; padding: 32px 20px; border-radius: 16px;
-      background: #fff; border: 1px solid rgba(0,0,0,.06);
-      transition: all .35s cubic-bezier(.22,1,.36,1);
-    }
-    .process-step:hover { border-color: rgba(0,0,0,.15); transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,.06); }
-    .process-step .num {
-      width: 44px; height: 44px; border-radius: 50%; background: #f5f5f5;
-      display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
-      font-weight: 700; font-size: .9rem; color: #888; transition: all .3s;
-    }
-    .process-step:hover .num { background: #000; color: #fff; }
-    .process-step h4 { font-size: .95rem; font-weight: 700; margin-bottom: 8px; }
-    .process-step p { color: #888; font-size: .8rem; line-height: 1.6; }
+    /* PORTFOLIO */
+    #portfolio{background:#fff}
+    .portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:48px}
+    .portfolio-card{background:#fafafa;border:1px solid rgba(0,0,0,.06);border-radius:16px;overflow:hidden;transition:all .35s cubic-bezier(.16,1,.3,1);cursor:default}
+    .portfolio-card:hover{transform:translateY(-4px);box-shadow:0 24px 56px rgba(0,0,0,.07);border-color:rgba(0,0,0,.1)}
+    .portfolio-card .thumb{height:220px;background:#111;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .portfolio-card .thumb .overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+    .portfolio-card:hover .thumb .overlay{opacity:1}
+    .portfolio-card .thumb .overlay span{color:#fff;font-size:.85rem;font-weight:600;border:1px solid rgba(255,255,255,.3);padding:8px 20px;border-radius:8px}
+    .portfolio-card .thumb .mock-text{font-size:2rem;font-weight:800;color:#fff;letter-spacing:-.5px}
+    .portfolio-card .thumb .mock-sub{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:6px}
+    .portfolio-card .info{padding:24px 28px}
+    .portfolio-card .info .tags{display:flex;gap:6px;margin-bottom:12px}
+    .portfolio-card .info .tags span{padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:600;background:rgba(0,0,0,.04);color:#888}
+    .portfolio-card .info h3{font-size:1.1rem;font-weight:700;margin-bottom:6px}
+    .portfolio-card .info p{color:#666;font-size:.82rem;line-height:1.6}
 
-    /* ===== DIFERENCIAIS ===== */
-    #diferenciais { background: #fff; }
-    .diff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 48px; }
-    .diff-item {
-      display: flex; gap: 18px; padding: 24px; border-radius: 12px;
-      transition: all .3s; cursor: default;
-    }
-    .diff-item:hover { background: #f8f8f8; }
-    .diff-item .check {
-      width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-      font-size: .75rem; margin-top: 2px; transition: all .3s;
-    }
-    .diff-item:hover .check { background: #000; color: #fff; }
-    .diff-item h4 { font-size: .95rem; font-weight: 700; margin-bottom: 4px; }
-    .diff-item p { color: #888; font-size: .8rem; line-height: 1.6; }
+    /* EXPERIENCE */
+    #experiencia{position:relative}
+    .exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+    .exp-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:32px 24px;transition:all .3s cubic-bezier(.16,1,.3,1)}
+    .exp-card:hover{border-color:rgba(0,0,0,.12);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.05)}
+    .exp-card .icon-wrap{width:42px;height:42px;border-radius:10px;background:#f3f3f3;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:16px}
+    .exp-card h3{font-size:.95rem;font-weight:700;margin-bottom:6px}
+    .exp-card p{color:#777;font-size:.8rem;line-height:1.65}
 
-    /* ===== CTA ===== */
-    .cta {
-      text-align: center; position: relative; overflow: hidden;
-    }
-    .cta::before {
-      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(ellipse at 50% 50%, rgba(37,211,102,.03) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .cta h2 { margin-bottom: 12px; font-size: 2.2rem; }
-    .cta p { color: #666; font-size: .95rem; max-width: 440px; margin: 0 auto 36px; }
+    /* SERVICES */
+    #servicos{background:#fff}
+    .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+    .svc-card{background:#fafafa;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:36px 28px;text-align:center;transition:all .35s cubic-bezier(.16,1,.3,1)}
+    .svc-card:hover{border-color:rgba(0,0,0,.12);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.05);background:#fff}
+    .svc-card .svc-icon{width:52px;height:52px;border-radius:14px;background:#f3f3f3;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 20px;transition:background .3s}
+    .svc-card:hover .svc-icon{background:#e8e8e8}
+    .svc-card h3{font-size:1rem;font-weight:700;margin-bottom:8px}
+    .svc-card p{color:#777;font-size:.82rem;line-height:1.65}
+    .svc-card .price{margin-top:16px;font-size:.75rem;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:1px}
 
-    /* ===== FLOATING WHATSAPP ===== */
-    .float-whatsapp {
-      position: fixed; bottom: 24px; right: 24px; z-index: 200;
-      width: 56px; height: 56px; border-radius: 50%; background: #25D366;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 24px rgba(37,211,102,.4); text-decoration: none;
-      transition: all .3s; animation: whatsappPulse 2s infinite;
-    }
-    .float-whatsapp:hover { transform: scale(1.1); }
-    .float-whatsapp svg { width: 26px; height: 26px; fill: #fff; }
+    /* PROCESS */
+    #processo{position:relative}
+    .proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+    .proc-step{text-align:center;padding:32px 16px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;transition:all .3s}
+    .proc-step:hover{border-color:rgba(0,0,0,.12);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.05)}
+    .proc-step .num{width:40px;height:40px;border-radius:50%;background:#f3f3f3;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-weight:700;font-size:.8rem;color:#888;transition:all .3s}
+    .proc-step:hover .num{background:#000;color:#fff}
+    .proc-step h4{font-size:.9rem;font-weight:700;margin-bottom:6px}
+    .proc-step p{color:#888;font-size:.75rem;line-height:1.6}
 
-    /* ===== FOOTER ===== */
-    footer {
-      border-top: 1px solid rgba(0,0,0,.06); padding: 40px 0; text-align: center;
-    }
-    footer p { font-size: .8rem; color: #aaa; }
+    /* STATS */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px}
+    .stat-card{text-align:center;padding:32px 16px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px}
+    .stat-card .num{font-size:2rem;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+    .stat-card .label{font-size:.75rem;color:#888;font-weight:500}
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 900px) {
-      .hero h1 { font-size: 2.2rem; }
-      section h2 { font-size: 1.6rem; }
-      .services-grid { grid-template-columns: 1fr 1fr; }
-      .process-grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 1.6rem; }
-      section { padding: 60px 0; }
-      section h2 { font-size: 1.3rem; }
-      .services-grid, .process-grid, .exp-grid, .diff-grid { grid-template-columns: 1fr; }
-      nav .nav-links a:not(.btn) { display: none; }
-      .cta h2 { font-size: 1.5rem; }
-    }
+    /* DIFFERENTIALS */
+    #diferenciais{background:#fff}
+    .diff-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:48px}
+    .diff-item{display:flex;gap:16px;padding:24px;border-radius:14px;background:#fafafa;border:1px solid rgba(0,0,0,.06);transition:all .3s}
+    .diff-item:hover{background:#fff;border-color:rgba(0,0,0,.12);transform:translateY(-2px)}
+    .diff-item .check{width:32px;height:32px;border-radius:50%;background:#f3f3f3;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;color:#555;transition:all .3s}
+    .diff-item:hover .check{background:#000;color:#fff}
+    .diff-item h4{font-size:.9rem;font-weight:700;margin-bottom:4px}
+    .diff-item p{color:#888;font-size:.8rem;line-height:1.6}
+
+    /* CTA */
+    .cta{text-align:center;position:relative}
+    .cta-box{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:60px 40px;position:relative;overflow:hidden}
+    .cta-box::before{content:'';position:absolute;top:-60%;left:-60%;width:220%;height:220%;background:radial-gradient(ellipse,rgba(37,211,102,.03),transparent 60%);pointer-events:none}
+    .cta-box h2{font-size:2.4rem;margin-bottom:12px;position:relative}
+    .cta-box p{color:#666;font-size:.95rem;margin:0 auto 36px;max-width:420px;position:relative}
+    .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
+
+    /* FOOTER */
+    footer{border-top:1px solid rgba(0,0,0,.06);padding:48px 0}
+    footer .footer-grid{display:grid;grid-template-columns:1fr auto auto;gap:32px;align-items:center}
+    footer .f-brand{font-size:1.1rem;font-weight:800;letter-spacing:-.3px}
+    footer .f-brand b{font-weight:300;color:#999}
+    footer .f-links{display:flex;gap:20px}
+    footer .f-links a{color:#888;text-decoration:none;font-size:.8rem;font-weight:500;transition:color .2s}
+    footer .f-links a:hover{color:#000}
+    footer .f-copy{font-size:.75rem;color:#bbb;text-align:right}
+
+    /* FLOAT WPP */
+    .float-wpp{position:fixed;bottom:24px;right:24px;z-index:200;width:52px;height:52px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);text-decoration:none;transition:transform .25s}
+    .float-wpp:hover{transform:scale(1.1)}
+    .float-wpp svg{width:24px;height:24px;fill:#fff}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:48px}.hero{min-height:auto;padding:140px 0 80px}.hero-card{max-width:420px}.exp-grid,.svc-grid{grid-template-columns:repeat(2,1fr)}.proc-grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.hero h1{font-size:2.2rem}.hero-card{padding:28px}.hero-card .screen{height:140px}.portfolio-grid,.diff-grid{grid-template-columns:1fr}.exp-grid,.svc-grid,.proc-grid,.stats{grid-template-columns:1fr}section{padding:70px 0}section h2{font-size:1.6rem}.cta-box{padding:40px 24px}.cta-box h2{font-size:1.8rem}nav .links a:not(.btn-nav){display:none}footer .footer-grid{grid-template-columns:1fr;text-align:center}footer .f-copy{text-align:center}}
   </style>
 </head>
 <body>
 
-  <nav id="navbar">
+  <nav id="nav">
     <div class="container">
-      <a href="#" class="logo">Quick<span>Lab</span></a>
-      <div class="nav-links">
-        <a href="#sobre">Experiência</a>
+      <a href="#" class="logo">Quick<b>Lab</b></a>
+      <div class="links">
+        <a href="#portfolio">Portfólio</a>
         <a href="#servicos">Serviços</a>
         <a href="#processo">Processo</a>
-        <a href="#diferenciais">Diferenciais</a>
-        <a href="#contato" class="btn btn-primary" style="padding:8px 20px">Orçamento</a>
+        <a href="#contato" class="btn-nav">Orçamento</a>
       </div>
     </div>
   </nav>
 
   <section class="hero">
     <div class="container">
-      <div class="badge">&#9889; QuickLab — Desenvolvimento Web & Mobile</div>
-      <h1>
-        Site profissional para<br>
-        sua pequena empresa<br>
-        começa aqui
-      </h1>
-      <p class="subtitle">Crio sites modernos e funcionais para pequenos negócios que querem crescer com presença digital de verdade. Sem complicação, sem enrolação.</p>
-      <div class="hero-actions">
-        <a href="#servicos" class="btn btn-outline">Ver serviços</a>
-        <a href="#contato" class="btn btn-primary" style="padding:14px 36px;font-size:1rem">Solicitar orçamento</a>
+      <div class="hero-grid">
+        <div>
+          <div class="hero-tag reveal"><span class="dot"></span> Disponível para projetos</div>
+          <h1 class="reveal reveal-d1">Sites e apps que fazem sua empresa <strong>vender</strong></h1>
+          <p class="sub reveal reveal-d2">Crio sites profissionais e aplicativos para pequenas empresas que querem crescer com presença digital de verdade.</p>
+          <div class="hero-btns reveal reveal-d3">
+            <a href="#contato" class="btn btn-dark">Solicitar orçamento</a>
+            <a href="#portfolio" class="btn btn-ghost">Ver projetos</a>
+          </div>
+        </div>
+        <div class="hero-card reveal reveal-d2">
+          <div class="screen">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="mock-text">QuickLab</div>
+            <div class="submock">sites & aplicativos</div>
+          </div>
+          <div class="meta">
+            <div class="meta-item"><div class="val">50+</div><div class="label">Tecnologias</div></div>
+            <div class="meta-item"><div class="val">24h</div><div class="label">Resposta</div></div>
+            <div class="meta-item"><div class="val">100%</div><div class="label">Dedicação</div></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="sobre">
+  <div class="marquee">
+    <div class="marquee-inner">
+      <div class="marquee-item">HTML5 <span class="sep">/</span> CSS3 <span class="sep">/</span> JavaScript <span class="sep">/</span> React <span class="sep">/</span> Next.js <span class="sep">/</span> Node.js <span class="sep">/</span> React Native <span class="sep">/</span> Firebase <span class="sep">/</span> Git <span class="sep">/</span> APIs REST</div>
+      <div class="marquee-item">HTML5 <span class="sep">/</span> CSS3 <span class="sep">/</span> JavaScript <span class="sep">/</span> React <span class="sep">/</span> Next.js <span class="sep">/</span> Node.js <span class="sep">/</span> React Native <span class="sep">/</span> Firebase <span class="sep">/</span> Git <span class="sep">/</span> APIs REST</div>
+    </div>
+  </div>
+
+  <section id="portfolio">
     <div class="container">
-      <span class="section-label reveal">Experiência</span>
-      <h2 class="reveal reveal-delay-1">O que sei fazer</h2>
-      <p class="lead reveal reveal-delay-2">Desenvolvo sites e aplicativos completos com foco em entregar projetos reais que funcionam.</p>
+      <div class="section-tag reveal">Portfólio</div>
+      <h2 class="reveal reveal-d1">Projetos recentes</h2>
+      <p class="lead reveal reveal-d2">Veja exemplos reais do que já desenvolvi.</p>
+      <div class="portfolio-grid">
+        <div class="portfolio-card reveal reveal-d1">
+          <div class="thumb">
+            <div class="mock-text">QuickTrek</div>
+            <div class="mock-sub">Navegação ao ar livre</div>
+            <div class="overlay"><span>Ver detalhes</span></div>
+          </div>
+          <div class="info">
+            <div class="tags"><span>React Native</span><span>Next.js</span><span>Node.js</span></div>
+            <h3>QuickTrek</h3>
+            <p>Aplicativo e site de navegação com mapas offline, rotas colaborativas e comunidade. Desenvolvido do zero.</p>
+          </div>
+        </div>
+        <div class="portfolio-card reveal reveal-d2">
+          <div class="thumb" style="background:linear-gradient(135deg,#1a1a1a,#333)">
+            <div class="mock-text">Em breve</div>
+            <div class="mock-sub">Novo projeto</div>
+            <div class="overlay"><span>Em breve</span></div>
+          </div>
+          <div class="info">
+            <div class="tags"><span>Novo</span></div>
+            <h3>Próximo projeto</h3>
+            <p>Novo projeto em desenvolvimento. Volte em breve para conferir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiencia">
+    <div class="container">
+      <div class="section-tag reveal">Experiência</div>
+      <h2 class="reveal reveal-d1">O que sei fazer</h2>
+      <p class="lead reveal reveal-d2">Desenvolvimento completo, do conceito ao código final.</p>
       <div class="exp-grid">
-        <div class="exp-card reveal reveal-delay-1">
-          <div class="icon">&#127760;</div>
-          <h3>Desenvolvimento Web</h3>
-          <p>Crio sites responsivos com HTML, CSS, JavaScript, React e Next.js. Do design ao código, entrego projetos prontos para ir ao ar.</p>
+        <div class="exp-card reveal reveal-d1">
+          <div class="icon-wrap">&#127760;</div>
+          <h3>Web Development</h3>
+          <p>Sites responsivos com HTML, CSS, JavaScript, React e Next.js. Do design ao deploy.</p>
         </div>
-        <div class="exp-card reveal reveal-delay-2">
-          <div class="icon">&#128241;</div>
-          <h3>Aplicativos Mobile</h3>
-          <p>Desenvolvo apps para Android e iOS com React Native. Experiência prática com mapas offline, APIs e performance mobile.</p>
+        <div class="exp-card reveal reveal-d2">
+          <div class="icon-wrap">&#128241;</div>
+          <h3>Mobile Apps</h3>
+          <p>Apps para Android e iOS com React Native. APIs, mapas, notificações e performance.</p>
         </div>
-        <div class="exp-card reveal reveal-delay-3">
-          <div class="icon">&#128295;</div>
-          <h3>APIs e Backend</h3>
-          <p>Construo servidores e APIs com Node.js, bancos SQL e NoSQL, autenticação e deploy em produção.</p>
+        <div class="exp-card reveal reveal-d3">
+          <div class="icon-wrap">&#128295;</div>
+          <h3>Backend & APIs</h3>
+          <p>Servidores com Node.js, bancos SQL/NoSQL, autenticação e integrações.</p>
         </div>
-        <div class="exp-card reveal reveal-delay-4">
-          <div class="icon">&#128736;&#65039;</div>
-          <h3>Deploy & Publicação</h3>
-          <p>Domino deploy de sites e apps em Vercel, Firebase, servidores e stores. Do desenvolvimento ao produto final no ar.</p>
+        <div class="exp-card reveal reveal-d1">
+          <div class="icon-wrap">&#128640;</div>
+          <h3>Deploy</h3>
+          <p>Publicação em Firebase, Vercel, servidores. Do desenvolvimento ao produto no ar.</p>
+        </div>
+        <div class="exp-card reveal reveal-d2">
+          <div class="icon-wrap">&#128736;&#65039;</div>
+          <h3>DevOps</h3>
+          <p>Git, CI/CD, containers, monitoramento. Processos automatizados e confiáveis.</p>
+        </div>
+        <div class="exp-card reveal reveal-d3">
+          <div class="icon-wrap">&#127912;</div>
+          <h3>UI/UX Design</h3>
+          <p>Interfaces limpas, navegáveis e pensadas para converter visitantes em clientes.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="servicos">
+  <section id="servicos" style="background:#fff">
     <div class="container">
-      <span class="section-label reveal">Serviços</span>
-      <h2 class="reveal reveal-delay-1">Sites para pequenas empresas</h2>
-      <p class="lead reveal reveal-delay-2">Foco em negócios locais, prestadores de serviço e empreendedores que precisam de um site profissional sem pagar fortunas.</p>
-      <div class="services-grid">
-        <div class="service-card reveal reveal-delay-1">
-          <div class="icon">&#127760;</div>
+      <div class="section-tag reveal">Serviços</div>
+      <h2 class="reveal reveal-d1">Sites para pequenas empresas</h2>
+      <p class="lead reveal reveal-d2">Soluções sob medida para quem quer presença digital sem complicação.</p>
+      <div class="svc-grid">
+        <div class="svc-card reveal reveal-d1">
+          <div class="svc-icon">&#127760;</div>
           <h3>Site Institucional</h3>
-          <p>Páginas essenciais para sua empresa: home, sobre, serviços e contato. Responsivo e rápido.</p>
+          <p>Home, sobre, serviços e contato. Tudo que sua empresa precisa para estar online.</p>
+          <div class="price">A partir de R$ 497</div>
         </div>
-        <div class="service-card reveal reveal-delay-2">
-          <div class="icon">&#127912;</div>
+        <div class="svc-card reveal reveal-d2">
+          <div class="svc-icon">&#127912;</div>
           <h3>Landing Page</h3>
-          <p>Página única e objetiva para campanhas, promoções ou captação de leads qualificados.</p>
+          <p>Página única para campanhas, promoções ou captação de leads.</p>
+          <div class="price">A partir de R$ 297</div>
         </div>
-        <div class="service-card reveal reveal-delay-3">
-          <div class="icon">&#128722;</div>
+        <div class="svc-card reveal reveal-d3">
+          <div class="svc-icon">&#128722;</div>
           <h3>Catálogo Online</h3>
-          <p>Mostre seus produtos ou serviços com fotos, descrições e contato direto pelo WhatsApp.</p>
+          <p>Produtos ou serviços com fotos, descrições e contato pelo WhatsApp.</p>
+          <div class="price">A partir de R$ 697</div>
         </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card reveal reveal-d1"><div class="num">50+</div><div class="label">Tecnologias dominadas</div></div>
+        <div class="stat-card reveal reveal-d2"><div class="num">24h</div><div class="label">Tempo de resposta</div></div>
+        <div class="stat-card reveal reveal-d3"><div class="num">100%</div><div class="label">Código próprio</div></div>
+        <div class="stat-card reveal reveal-d4"><div class="num">0</div><div class="label">Templates prontos</div></div>
       </div>
     </div>
   </section>
 
   <section id="processo">
     <div class="container">
-      <span class="section-label reveal">Processo</span>
-      <h2 class="reveal reveal-delay-1">Simples e direto</h2>
-      <p class="lead reveal reveal-delay-2">Do primeiro contato ao site no ar, tudo transparente.</p>
-      <div class="process-grid">
-        <div class="process-step reveal reveal-delay-1">
+      <div class="section-tag reveal">Processo</div>
+      <h2 class="reveal reveal-d1">Como funciona</h2>
+      <p class="lead reveal reveal-d2">Do primeiro contato ao site publicado, tudo simples.</p>
+      <div class="proc-grid">
+        <div class="proc-step reveal reveal-d1">
           <div class="num">1</div>
-          <h4>Conversa</h4>
-          <p>Entendo seu negócio, suas necessidades e o que você quer alcançar.</p>
+          <h4>Briefing</h4>
+          <p>Conte sua ideia, seu negócio e o que precisa.</p>
         </div>
-        <div class="process-step reveal reveal-delay-2">
+        <div class="proc-step reveal reveal-d2">
           <div class="num">2</div>
           <h4>Proposta</h4>
-          <p>Envio orçamento e prazo definidos. Sem surpresas, sem letras miúdas.</p>
+          <p>Orçamento e prazo claros, sem surpresas.</p>
         </div>
-        <div class="process-step reveal reveal-delay-3">
+        <div class="proc-step reveal reveal-d3">
           <div class="num">3</div>
-          <h4>Criação</h4>
-          <p>Desenvolvo o projeto com acompanhamento e ajustes durante o processo.</p>
+          <h4>Desenvolvimento</h4>
+          <p>Crio o projeto com acompanhamento.</p>
         </div>
-        <div class="process-step reveal reveal-delay-4">
+        <div class="proc-step reveal reveal-d4">
           <div class="num">4</div>
           <h4>Entrega</h4>
-          <p>Publico seu site e você já está no ar. Suporte incluso após o lançamento.</p>
+          <p>Seu site publicado e pronto para vender.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="diferenciais">
+  <section id="diferenciais" style="background:#fff">
     <div class="container">
-      <span class="section-label reveal">Diferenciais</span>
-      <h2 class="reveal reveal-delay-1">Por que criar um site comigo</h2>
+      <div class="section-tag reveal">Diferenciais</div>
+      <h2 class="reveal reveal-d1">Por que me escolher</h2>
       <div class="diff-grid">
-        <div class="diff-item reveal reveal-delay-1">
+        <div class="diff-item reveal reveal-d1">
           <div class="check">&#10003;</div>
-          <div>
-            <h4>Design responsivo</h4>
-            <p>Funciona perfeitamente em celular, tablet e computador.</p>
-          </div>
+          <div><h4>Design responsivo</h4><p>Perfeito em celular, tablet e desktop.</p></div>
         </div>
-        <div class="diff-item reveal reveal-delay-2">
+        <div class="diff-item reveal reveal-d2">
           <div class="check">&#10003;</div>
-          <div>
-            <h4>Rápido e otimizado</h4>
-            <p>Sites leves que carregam em segundos e vão bem no Google.</p>
-          </div>
+          <div><h4>Rápido e leve</h4><p>Sites que carregam em menos de 2 segundos.</p></div>
         </div>
-        <div class="diff-item reveal reveal-delay-3">
+        <div class="diff-item reveal reveal-d3">
           <div class="check">&#10003;</div>
-          <div>
-            <h4>Sem mensalidade</h4>
-            <p>Você paga uma única vez pelo projeto. Sem taxas escondidas.</p>
-          </div>
+          <div><h4>Sem mensalidade</h4><p>Uma única vez. Sem taxas escondidas.</p></div>
         </div>
-        <div class="diff-item reveal reveal-delay-4">
+        <div class="diff-item reveal reveal-d4">
           <div class="check">&#10003;</div>
-          <div>
-            <h4>Suporte direto</h4>
-            <p>Você fala comigo, não com um robô ou atendente genérico.</p>
-          </div>
+          <div><h4>Suporte direto</h4><p>Fala comigo, não com um sistema.</p></div>
         </div>
       </div>
     </div>
@@ -420,49 +389,45 @@
 
   <section class="cta" id="contato">
     <div class="container">
-      <h2 class="reveal">Vamos criar seu site?</h2>
-      <p class="reveal reveal-delay-1">Me chama no WhatsApp ou manda um email. Respondo pessoalmente.</p>
-      <div class="reveal reveal-delay-2" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px">
-        <a href="https://wa.me/5541999087024" target="_blank" class="btn btn-whatsapp" style="padding:16px 40px;font-size:1.05rem">
-          Fale no WhatsApp
-        </a>
-        <a href="mailto:quicklaboratory777@gmail.com" class="btn btn-outline" style="padding:16px 40px;font-size:1.05rem">
-          quicklaboratory777@gmail.com
-        </a>
+      <div class="cta-box reveal">
+        <div class="section-tag" style="justify-content:center">Contato</div>
+        <h2>Vamos criar seu site?</h2>
+        <p>Me chama no WhatsApp ou manda um email. Respondo pessoalmente.</p>
+        <div class="cta-btns">
+          <a href="https://wa.me/5541999087024" target="_blank" class="btn btn-wpp">Fale no WhatsApp</a>
+          <a href="mailto:quicklaboratory777@gmail.com" class="btn btn-ghost">quicklaboratory777@gmail.com</a>
+        </div>
       </div>
     </div>
   </section>
 
   <footer>
     <div class="container">
-      <div style="display:flex;gap:20px;justify-content:center;margin-bottom:12px">
-        <a href="https://www.facebook.com/profile.php?id=61577555251016&locale=pt_BR" target="_blank" style="color:#888;text-decoration:none;font-size:.8rem;transition:color .2s">Facebook</a>
-        <a href="mailto:quicklaboratory777@gmail.com" style="color:#888;text-decoration:none;font-size:.8rem;transition:color .2s">Email</a>
+      <div class="footer-grid">
+        <div class="f-brand">Quick<b>Lab</b></div>
+        <div class="f-links">
+          <a href="https://www.facebook.com/profile.php?id=61577555251016&locale=pt_BR" target="_blank">Facebook</a>
+          <a href="mailto:quicklaboratory777@gmail.com">Email</a>
+          <a href="https://wa.me/5541999087024" target="_blank">WhatsApp</a>
+        </div>
+        <div class="f-copy">&copy; 2026 QuickLab</div>
       </div>
-      <p>&copy; 2026 QuickLab</p>
     </div>
   </footer>
 
-  <a href="https://wa.me/5541999087024" target="_blank" class="float-whatsapp" aria-label="WhatsApp">
-    <svg viewBox="0 0 24 24" fill="white"><path d="M12.032 21.965c-1.93 0-3.738-.602-5.255-1.634L2.105 22l1.65-4.723A9.91 9.91 0 0 1 2.032 12c0-5.523 4.473-10 10-10s10 4.477 10 10-4.473 10-10 10z"/></svg>
+  <a href="https://wa.me/5541999087024" target="_blank" class="float-wpp" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.49l4.626-1.46A11.937 11.937 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-2.07 0-4-.573-5.665-1.572l-.406-.246-2.734.867.89-2.646-.295-.465A9.77 9.77 0 012.182 12c0-5.418 4.4-9.818 9.818-9.818S21.818 6.582 21.818 12s-4.4 9.818-9.818 9.818z"/></svg>
   </a>
 
   <script>
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-        }
-      });
-    }, { threshold: .1 });
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
+    }, { threshold: .08 })
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Navbar shrink on scroll
     window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-    });
+      document.getElementById('nav').classList.toggle('solid', window.scrollY > 60)
+    })
   </script>
 
 </body>
