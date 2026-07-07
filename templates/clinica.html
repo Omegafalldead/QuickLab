@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VidaMED — Clínica Médica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:#f8fafc;color:#1e293b}
+    ::selection{background:#0ea5e9;color:#fff}
+    .container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(.16,1,.3,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 0;transition:all .3s}
+    nav.solid{background:rgba(248,250,252,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.05)}
+    nav .container{display:flex;align-items:center;justify-content:space-between}
+    nav .logo{font-size:1.3rem;font-weight:700;color:#0ea5e9;text-decoration:none;letter-spacing:-.3px}
+    nav .logo span{color:#1e293b;font-weight:500}
+    nav .links{display:flex;align-items:center;gap:24px}
+    nav .links a{color:#64748b;text-decoration:none;font-size:.82rem;font-weight:500;transition:color .2s}
+    nav .links a:hover{color:#1e293b}
+    nav .links .btn-agenda{background:#0ea5e9;color:#fff;padding:9px 22px;border-radius:10px;font-weight:600;font-size:.82rem}
+    nav .links .btn-agenda:hover{background:#0284c7;transform:translateY(-1px)}
+
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:10px;font-weight:600;font-size:.88rem;text-decoration:none;border:none;cursor:pointer;transition:all .25s}
+    .btn-blue{background:#0ea5e9;color:#fff}
+    .btn-blue:hover{background:#0284c7;transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,165,233,.3)}
+    .btn-outline{background:transparent;color:#475569;border:1px solid #e2e8f0}
+    .btn-outline:hover{border-color:#0ea5e9;color:#0ea5e9}
+
+    /* HERO */
+    .hero{min-height:100vh;display:flex;align-items:center;background:#fff;position:relative;overflow:hidden}
+    .hero::after{content:'';position:absolute;top:-30%;right:-15%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,.06),transparent 70%)}
+    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+    .hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:100px;border:1px solid rgba(14,165,233,.15);font-size:.7rem;font-weight:600;color:#0ea5e9;letter-spacing:.5px;text-transform:uppercase;margin-bottom:24px}
+    .hero-tag .pulse{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}}
+    .hero h1{font-size:3rem;font-weight:700;line-height:1.15;letter-spacing:-.8px;margin-bottom:20px;color:#0f172a}
+    .hero h1 em{font-style:normal;color:#0ea5e9}
+    .hero p{font-size:1rem;color:#64748b;line-height:1.8;max-width:440px;margin-bottom:32px}
+    .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+
+    .hero-visual{position:relative}
+    .hero-card{background:#f1f5f9;border-radius:20px;padding:40px;position:relative}
+    .hero-card .mock-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+    .hero-card .mock-avatar{width:48px;height:48px;border-radius:50%;background:#e0f2fe;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+    .hero-card .mock-name{font-weight:600;font-size:.9rem;color:#0f172a}
+    .hero-card .mock-role{font-size:.7rem;color:#94a3b8}
+    .hero-card .mock-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .hero-card .mock-stat{background:#fff;border-radius:12px;padding:16px;text-align:center}
+    .hero-card .mock-stat .num{font-size:1.3rem;font-weight:700;color:#0ea5e9}
+    .hero-card .mock-stat .label{font-size:.65rem;color:#94a3b8;margin-top:2px}
+
+    /* SPECIALTIES */
+    #especialidades{padding:100px 0;background:#fff}
+    .section-label{font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#0ea5e9;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+    .section-label::before{content:'';width:20px;height:2px;background:#0ea5e9;border-radius:1px}
+    section h2{font-size:2rem;font-weight:700;letter-spacing:-.5px;line-height:1.3;margin-bottom:12px;color:#0f172a}
+    section .lead{color:#64748b;font-size:.92rem;line-height:1.7;max-width:480px}
+
+    .spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+    .spec-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:28px 20px;text-align:center;transition:all .3s}
+    .spec-card:hover{border-color:#bae6fd;transform:translateY(-3px);box-shadow:0 12px 32px rgba(14,165,233,.08)}
+    .spec-card .icon{width:48px;height:48px;border-radius:12px;background:#e0f2fe;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 16px}
+    .spec-card h3{font-size:.9rem;font-weight:600;margin-bottom:4px;color:#0f172a}
+    .spec-card p{color:#94a3b8;font-size:.75rem;line-height:1.5}
+
+    /* DOCTORS */
+    #medicos{padding:100px 0;background:#f8fafc}
+    .doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+    .doc-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;transition:all .3s}
+    .doc-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.06)}
+    .doc-card .photo{height:200px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);display:flex;align-items:center;justify-content:center;font-size:3rem}
+    .doc-card .info{padding:24px}
+    .doc-card .info h3{font-size:1rem;font-weight:600;margin-bottom:4px;color:#0f172a}
+    .doc-card .info .spec{font-size:.75rem;color:#0ea5e9;font-weight:500;margin-bottom:8px}
+    .doc-card .info p{font-size:.8rem;color:#94a3b8;line-height:1.6}
+
+    /* INSURANCE */
+    #convenios{padding:100px 0;background:#fff}
+    .conv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+    .conv-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:24px;text-align:center;transition:all .3s}
+    .conv-card:hover{border-color:#bae6fd;transform:translateY(-2px)}
+    .conv-card .logo-placeholder{width:48px;height:48px;border-radius:10px;background:#e0f2fe;display:flex;align-items:center;justify-content:center;font-size:1rem;margin:0 auto 12px}
+    .conv-card h4{font-size:.82rem;font-weight:600;color:#0f172a}
+
+    /* CTA */
+    .cta{padding:100px 0;background:linear-gradient(135deg,#0f172a,#1e293b);text-align:center;color:#fff;position:relative;overflow:hidden}
+    .cta::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse,rgba(14,165,233,.1),transparent 60%)}
+    .cta h2{font-size:2.2rem;color:#fff;position:relative}
+    .cta p{color:rgba(255,255,255,.5);font-size:.92rem;margin:12px auto 36px;max-width:420px;position:relative}
+    .cta .btn-blue{position:relative;background:#fff;color:#0ea5e9}
+    .cta .btn-blue:hover{background:#f1f5f9;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+
+    /* FOOTER */
+    footer{padding:40px 0;background:#0f172a;text-align:center}
+    footer p{font-size:.75rem;color:rgba(255,255,255,.3)}
+
+    /* FLOAT WPP */
+    .float-wpp{position:fixed;bottom:24px;right:24px;z-index:200;width:52px;height:52px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);text-decoration:none;transition:transform .25s}
+    .float-wpp:hover{transform:scale(1.1)}
+    .float-wpp svg{width:24px;height:24px;fill:#fff}
+
+    /* TEMPLATE BANNER */
+    .template-banner{background:#0ea5e9;color:#fff;text-align:center;padding:10px 0;font-size:.75rem;font-weight:500;letter-spacing:.5px}
+    .template-banner a{color:#fff;text-decoration:underline;font-weight:600}
+
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-visual{max-width:380px;margin:0 auto}.spec-grid,.doc-grid{grid-template-columns:1fr 1fr}.conv-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){.hero h1{font-size:2rem}.spec-grid,.doc-grid,.conv-grid{grid-template-columns:1fr}nav .links a:not(.btn-agenda){display:none}}
+  </style>
+</head>
+<body>
+
+  <div class="template-banner">
+    Este é um template demonstrativo — <a href="../templates.html">Ver todos os templates</a>
+  </div>
+
+  <nav id="nav">
+    <div class="container">
+      <a href="#" class="logo">Vida<span>MED</span></a>
+      <div class="links">
+        <a href="#especialidades">Especialidades</a>
+        <a href="#medicos">Médicos</a>
+        <a href="#convenios">Convênios</a>
+        <a href="https://wa.me/5511999999999" target="_blank" class="btn-agenda">Agendar</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-tag reveal"><span class="pulse"></span> Clínica Médica</div>
+          <h1 class="reveal reveal-d1">Sua saúde em <em>boas mãos</em></h1>
+          <p class="reveal reveal-d2">Atendimento humanizado com profissionais qualificados. Agendamento rápido,现代os modernos e results que fazem a diferença.</p>
+          <div class="hero-btns reveal reveal-d3">
+            <a href="https://wa.me/5511999999999" target="_blank" class="btn btn-blue">Agendar consulta</a>
+            <a href="#especialidades" class="btn btn-outline">Ver especialidades</a>
+          </div>
+        </div>
+        <div class="hero-visual reveal reveal-d2">
+          <div class="hero-card">
+            <div class="mock-header">
+              <div class="mock-avatar">🩺</div>
+              <div><div class="mock-name">Dr. Carlos Silva</div><div class="mock-role">Clínico Geral</div></div>
+            </div>
+            <div class="mock-stats">
+              <div class="mock-stat"><div class="num">15+</div><div class="label">Anos de experiência</div></div>
+              <div class="mock-stat"><div class="num">5k+</div><div class="label">Pacientes atendidos</div></div>
+              <div class="mock-stat"><div class="num">98%</div><div class="label">Satisfação</div></div>
+              <div class="mock-stat"><div class="num">24h</div><div class="label">Retorno</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="especialidades">
+    <div class="container">
+      <div class="section-label reveal">Especialidades</div>
+      <h2 class="reveal reveal-d1">Nossas especialidades</h2>
+      <p class="lead reveal reveal-d2">Cuidamos de você com as melhores especialidades médicas.</p>
+      <div class="spec-grid">
+        <div class="spec-card reveal reveal-d1">
+          <div class="icon">❤️</div>
+          <h3>Cardiologia</h3>
+          <p>Exames e tratamentos do coração.</p>
+        </div>
+        <div class="spec-card reveal reveal-d2">
+          <div class="icon">🦴</div>
+          <h3>Ortopedia</h3>
+          <p>Ossos, articulações e coluna.</p>
+        </div>
+        <div class="spec-card reveal reveal-d3">
+          <div class="icon">🧠</div>
+          <h3>Neurologia</h3>
+          <p>Sistema nervoso e enxaqueca.</p>
+        </div>
+        <div class="spec-card reveal reveal-d3">
+          <div class="icon">👁️</div>
+          <h3>Oftalmologia</h3>
+          <p>Exames e cirurgias de visão.</p>
+        </div>
+        <div class="spec-card reveal reveal-d1">
+          <div class="icon">🦷</div>
+          <h3>Odontologia</h3>
+          <p>Saúde bucal completa.</p>
+        </div>
+        <div class="spec-card reveal reveal-d2">
+          <div class="icon">🩺</div>
+          <h3>Clínico Geral</h3>
+          <p>Check-up e prevenção.</p>
+        </div>
+        <div class="spec-card reveal reveal-d3">
+          <div class="icon">🤰</div>
+          <h3>Ginecologia</h3>
+          <p>Saúde da mulher.</p>
+        </div>
+        <div class="spec-card reveal reveal-d3">
+          <div class="icon">👶</div>
+          <h3>Pediatria</h3>
+          <p>Cuidando das crianças.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="medicos">
+    <div class="container">
+      <div class="section-label reveal">Equipe</div>
+      <h2 class="reveal reveal-d1">Nossos médicos</h2>
+      <p class="lead reveal reveal-d2">Profissionais experientes e dedicados à sua saúde.</p>
+      <div class="doc-grid">
+        <div class="doc-card reveal reveal-d1">
+          <div class="photo">👨‍⚕️</div>
+          <div class="info">
+            <h3>Dr. Carlos Silva</h3>
+            <div class="spec">Clínico Geral</div>
+            <p>CRM 12345 — 15 anos de experiência em medicina interna.</p>
+          </div>
+        </div>
+        <div class="doc-card reveal reveal-d2">
+          <div class="photo">👩‍⚕️</div>
+          <div class="info">
+            <h3>Dra. Ana Martins</h3>
+            <div class="spec">Cardiologista</div>
+            <p>CRM 12346 — Especialista em cardiologia intervencionista.</p>
+          </div>
+        </div>
+        <div class="doc-card reveal reveal-d3">
+          <div class="photo">👨‍⚕️</div>
+          <div class="info">
+            <h3>Dr. Pedro Santos</h3>
+            <div class="spec">Ortopedista</div>
+            <p>CRM 12347 — Cirurgia de joelho e coluna vertebral.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="convenios">
+    <div class="container">
+      <div class="section-label reveal">Convênios</div>
+      <h2 class="reveal reveal-d1">Convênios aceitos</h2>
+      <p class="lead reveal reveal-d2">Trabalhamos com os principais convênios médicos.</p>
+      <div class="conv-grid">
+        <div class="conv-card reveal reveal-d1">
+          <div class="logo-placeholder">🏥</div>
+          <h4>Amil</h4>
+        </div>
+        <div class="conv-card reveal reveal-d2">
+          <div class="logo-placeholder">🏥</div>
+          <h4>Bradesco Saúde</h4>
+        </div>
+        <div class="conv-card reveal reveal-d3">
+          <div class="logo-placeholder">🏥</div>
+          <h4>Unimed</h4>
+        </div>
+        <div class="conv-card reveal reveal-d3">
+          <div class="logo-placeholder">🏥</div>
+          <h4>SulAmérica</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2 class="reveal">Agende sua consulta</h2>
+      <p class="reveal reveal-d1">Atendimento humanizado e profissionais qualificados.</p>
+      <a href="https://wa.me/5511999999999" target="_blank" class="btn btn-blue reveal reveal-d2">Falar no WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 VidaMED — Clínica Médica</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/5511999999999" target="_blank" class="float-wpp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.49l4.626-1.46A11.937 11.937 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-2.07 0-4-.573-5.665-1.572l-.406-.246-2.734.867.89-2.646-.295-.465A9.77 9.77 0 012.182 12c0-5.418 4.4-9.818 9.818-9.818S21.818 6.582 21.818 12s-4.4 9.818-9.818 9.818z"/></svg>
+  </a>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
+    }, { threshold: .08 })
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('solid', window.scrollY > 60)
+    })
+  </script>
+
+</body>
+</html>
