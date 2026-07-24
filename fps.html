@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickLab FPS — Raycaster</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    background: #0a0a0f;
+    color: #e8e8ee;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    overflow: hidden;
+    user-select: none;
+  }
+  #wrap {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    display: block;
+    image-rendering: pixelated;
+    background: #000;
+    max-width: 100vw;
+    max-height: 100vh;
+    cursor: none;
+  }
+  /* HUD */
+  #hud {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    font-variant-numeric: tabular-nums;
+  }
+  #crosshair {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 22px; height: 22px;
+    transform: translate(-50%, -50%);
+  }
+  #crosshair::before, #crosshair::after {
+    content: "";
+    position: absolute;
+    background: rgba(120, 255, 180, 0.85);
+  }
+  #crosshair::before { top: 50%; left: 0; width: 100%; height: 2px; transform: translateY(-50%); }
+  #crosshair::after  { left: 50%; top: 0; height: 100%; width: 2px; transform: translateX(-50%); }
+  .stat {
+    position: absolute;
+    bottom: 18px;
+    padding: 8px 16px;
+    background: rgba(10, 12, 18, 0.55);
+    border: 1px solid rgba(120, 255, 180, 0.25);
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+  #health { left: 18px; }
+  #ammo   { right: 18px; }
+  #score  { top: 18px; left: 18px; }
+  .stat b { color: #78ffb4; font-size: 22px; }
+  #dmg {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle, transparent 40%, rgba(220,30,40,0.55) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  /* Overlay / menu */
+  #overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(6, 8, 14, 0.88);
+    backdrop-filter: blur(6px);
+    z-index: 10;
+  }
+  #overlay h1 {
+    font-size: clamp(32px, 7vw, 64px);
+    letter-spacing: 4px;
+    color: #78ffb4;
+    text-shadow: 0 0 24px rgba(120, 255, 180, 0.4);
+    margin-bottom: 8px;
+  }
+  #overlay p { color: #a8a8b8; margin: 6px 0; max-width: 440px; line-height: 1.5; }
+  #overlay .keys { margin: 20px 0; font-size: 14px; color: #c8c8d8; }
+  #overlay .keys span {
+    display: inline-block;
+    margin: 4px;
+    padding: 4px 10px;
+    background: rgba(120,255,180,0.1);
+    border: 1px solid rgba(120,255,180,0.3);
+    border-radius: 6px;
+  }
+  #startBtn {
+    pointer-events: auto;
+    margin-top: 18px;
+    padding: 14px 38px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #06120c;
+    background: #78ffb4;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  #startBtn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(120,255,180,0.5); }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game" width="960" height="540"></canvas>
+</div>
+
+<div id="hud" class="hidden">
+  <div id="crosshair"></div>
+  <div class="stat" id="score">PONTOS <b>0</b></div>
+  <div class="stat" id="health">VIDA <b>100</b></div>
+  <div class="stat" id="ammo">MUNIÇÃO <b>∞</b></div>
+  <div id="dmg"></div>
+</div>
+
+<div id="overlay">
+  <h1>QUICKLAB FPS</h1>
+  <p>Um FPS raycaster autocontido. Elimine os alvos, sobreviva e faça a maior pontuação.</p>
+  <div class="keys">
+    <span>W A S D — mover</span>
+    <span>Mouse — mirar</span>
+    <span>Clique / Espaço — atirar</span>
+    <span>Shift — correr</span>
+    <span>ESC — pausar</span>
+  </div>
+  <p id="overMsg"></p>
+  <button id="startBtn">JOGAR</button>
+</div>
+
+<script>
+"use strict";
+(() => {
+  const canvas = document.getElementById("game");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+
+  // ---------- Mapa (1 = parede, 0 = vazio) ----------
+  const MAP = [
+    "1111111111111111",
+    "1000000000000001",
+    "1011110011110101",
+    "1010000000010101",
+    "1010111110010001",
+    "1010100010011101",
+    "1000100010000101",
+    "1011101110110101",
+    "1010000000100001",
+    "1010111011101101",
+    "1000100000001001",
+    "1110101111101011",
+    "1000100000001001",
+    "1011111011110101",
+    "1000000000000001",
+    "1111111111111111",
+  ];
+  const MAP_H = MAP.length, MAP_W = MAP[0].length;
+  const cell = (x, y) =>
+    (x < 0 || y < 0 || x >= MAP_W || y >= MAP_H) ? 1 : (MAP[y|0][x|0] === "1" ? 1 : 0);
+
+  // ---------- Estado do jogador ----------
+  const player = { x: 2.5, y: 2.5, dir: 0, health: 100, score: 0 };
+  const FOV = Math.PI / 3;
+  const MOVE = 3.2, RUN = 5.4, ROT = 2.4;
+
+  // ---------- Inimigos ----------
+  let enemies = [];
+  function spawnEnemies(n) {
+    enemies = [];
+    let tries = 0;
+    while (enemies.length < n && tries < 500) {
+      tries++;
+      const x = 1 + Math.random() * (MAP_W - 2);
+      const y = 1 + Math.random() * (MAP_H - 2);
+      if (cell(x, y) === 0 && Math.hypot(x - player.x, y - player.y) > 3) {
+        enemies.push({ x, y, alive: true, hp: 1, hit: 0, wob: Math.random() * 6 });
+      }
+    }
+  }
+
+  // ---------- Input ----------
+  const keys = {};
+  let running = false, paused = false, shootQueued = false, shootCd = 0;
+  const muzzle = { t: 0 };
+
+  addEventListener("keydown", e => {
+    keys[e.code] = true;
+    if (e.code === "Space") { shootQueued = true; e.preventDefault(); }
+    if (e.code === "Escape" && running) togglePause();
+  });
+  addEventListener("keyup", e => { keys[e.code] = false; });
+
+  canvas.addEventListener("click", () => {
+    if (!running) return;
+    if (document.pointerLockElement !== canvas) { canvas.requestPointerLock(); return; }
+    shootQueued = true;
+  });
+  document.addEventListener("mousemove", e => {
+    if (document.pointerLockElement === canvas && running && !paused)
+      player.dir += e.movementX * 0.0022;
+  });
+  document.addEventListener("pointerlockchange", () => {
+    if (document.pointerLockElement !== canvas && running && !paused) togglePause();
+  });
+
+  // ---------- UI ----------
+  const overlay = document.getElementById("overlay");
+  const hud = document.getElementById("hud");
+  const startBtn = document.getElementById("startBtn");
+  const overMsg = document.getElementById("overMsg");
+  const scoreEl = document.querySelector("#score b");
+  const healthEl = document.querySelector("#health b");
+  const dmgEl = document.getElementById("dmg");
+
+  function startGame() {
+    player.x = 2.5; player.y = 2.5; player.dir = 0;
+    player.health = 100; player.score = 0;
+    spawnEnemies(8);
+    running = true; paused = false;
+    overlay.classList.add("hidden");
+    hud.classList.remove("hidden");
+    updateHud();
+    canvas.requestPointerLock();
+    last = performance.now();
+    requestAnimationFrame(loop);
+  }
+  function togglePause() {
+    paused = !paused;
+    if (paused) {
+      overMsg.textContent = "Pausado";
+      startBtn.textContent = "CONTINUAR";
+      overlay.classList.remove("hidden");
+    } else {
+      overlay.classList.add("hidden");
+      canvas.requestPointerLock();
+      last = performance.now();
+      requestAnimationFrame(loop);
+    }
+  }
+  function gameOver() {
+    running = false;
+    document.exitPointerLock?.();
+    overMsg.textContent = `Fim de jogo — Pontuação: ${player.score}`;
+    startBtn.textContent = "JOGAR NOVAMENTE";
+    startBtn.onclick = startGame;
+    overlay.classList.remove("hidden");
+    hud.classList.add("hidden");
+  }
+  function updateHud() {
+    scoreEl.textContent = player.score;
+    healthEl.textContent = Math.max(0, Math.round(player.health));
+  }
+  function flashDamage() {
+    dmgEl.style.opacity = "1";
+    setTimeout(() => dmgEl.style.opacity = "0", 120);
+  }
+  startBtn.onclick = () => {
+    if (paused) togglePause(); else startGame();
+  };
+
+  // ---------- Movimento com colisão ----------
+  function tryMove(nx, ny) {
+    const pad = 0.18;
+    if (cell(nx + Math.sign(nx - player.x) * pad, player.y) === 0) player.x = nx;
+    if (cell(player.x, ny + Math.sign(ny - player.y) * pad) === 0) player.y = ny;
+  }
+  function update(dt) {
+    const speed = (keys.ShiftLeft || keys.ShiftRight ? RUN : MOVE) * dt;
+    const rot = ROT * dt;
+    const cos = Math.cos(player.dir), sin = Math.sin(player.dir);
+    let nx = player.x, ny = player.y;
+    if (keys.KeyW) { nx += cos * speed; ny += sin * speed; }
+    if (keys.KeyS) { nx -= cos * speed; ny -= sin * speed; }
+    if (keys.KeyA) { nx += sin * speed; ny -= cos * speed; }
+    if (keys.KeyD) { nx -= sin * speed; ny += cos * speed; }
+    tryMove(nx, ny);
+    if (keys.ArrowLeft)  player.dir -= rot;
+    if (keys.ArrowRight) player.dir += rot;
+
+    // Inimigos perseguem e atacam
+    for (const e of enemies) {
+      if (!e.alive) continue;
+      e.wob += dt * 6;
+      const dx = player.x - e.x, dy = player.y - e.y;
+      const d = Math.hypot(dx, dy);
+      if (e.hit > 0) e.hit -= dt;
+      if (d > 0.7 && d < 8) {
+        const step = 1.1 * dt;
+        const ex = e.x + (dx / d) * step, ey = e.y + (dy / d) * step;
+        if (cell(ex, e.y) === 0) e.x = ex;
+        if (cell(e.x, ey) === 0) e.y = ey;
+      }
+      if (d < 0.7) {
+        player.health -= 22 * dt;
+        flashDamage();
+        if (player.health <= 0) { updateHud(); gameOver(); return; }
+      }
+    }
+
+    if (shootCd > 0) shootCd -= dt;
+    if (shootQueued && shootCd <= 0) shoot();
+    shootQueued = false;
+    if (muzzle.t > 0) muzzle.t -= dt;
+
+    // Respawn se todos mortos
+    if (enemies.every(e => !e.alive)) spawnEnemies(8 + Math.min(6, (player.score / 500) | 0));
+    updateHud();
+  }
+
+  // ---------- Tiro (hitscan pelo centro da tela) ----------
+  function shoot() {
+    shootCd = 0.28;
+    muzzle.t = 0.08;
+    const cos = Math.cos(player.dir), sin = Math.sin(player.dir);
+    // distância da parede na direção central
+    const wallDist = castRay(player.dir).dist;
+    let best = null, bestDist = Infinity;
+    for (const e of enemies) {
+      if (!e.alive) continue;
+      const dx = e.x - player.x, dy = e.y - player.y;
+      const dist = Math.hypot(dx, dy);
+      const ang = Math.atan2(dy, dx) - player.dir;
+      const na = Math.atan2(Math.sin(ang), Math.cos(ang));
+      // largura angular do alvo diminui com a distância
+      const halfW = Math.atan2(0.35, dist);
+      if (Math.abs(na) < halfW && dist < wallDist && dist < bestDist) {
+        best = e; bestDist = dist;
+      }
+    }
+    if (best) {
+      best.hp -= 1;
+      best.hit = 0.15;
+      if (best.hp <= 0) {
+        best.alive = false;
+        player.score += 100;
+      }
+    }
+  }
+
+  // ---------- Raycasting DDA ----------
+  function castRay(angle) {
+    const sin = Math.sin(angle), cos = Math.cos(angle);
+    let mx = player.x | 0, my = player.y | 0;
+    const dDX = Math.abs(1 / (cos || 1e-9));
+    const dDY = Math.abs(1 / (sin || 1e-9));
+    let stepX, stepY, sideX, sideY;
+    if (cos < 0) { stepX = -1; sideX = (player.x - mx) * dDX; }
+    else { stepX = 1; sideX = (mx + 1 - player.x) * dDX; }
+    if (sin < 0) { stepY = -1; sideY = (player.y - my) * dDY; }
+    else { stepY = 1; sideY = (my + 1 - player.y) * dDY; }
+    let side = 0, hit = false, guard = 0;
+    while (!hit && guard++ < 64) {
+      if (sideX < sideY) { sideX += dDX; mx += stepX; side = 0; }
+      else { sideY += dDY; my += stepY; side = 1; }
+      if (cell(mx, my) === 1) hit = true;
+    }
+    const dist = side === 0 ? (sideX - dDX) : (sideY - dDY);
+    return { dist: Math.max(0.0001, dist), side, mx, my };
+  }
+
+  // ---------- Renderização ----------
+  const zbuffer = new Float32Array(W);
+  function render() {
+    // Céu e chão
+    const g1 = ctx.createLinearGradient(0, 0, 0, H / 2);
+    g1.addColorStop(0, "#0b1220"); g1.addColorStop(1, "#182a3d");
+    ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H / 2);
+    const g2 = ctx.createLinearGradient(0, H / 2, 0, H);
+    g2.addColorStop(0, "#141018"); g2.addColorStop(1, "#241c26");
+    ctx.fillStyle = g2; ctx.fillRect(0, H / 2, W, H / 2);
+
+    // Paredes
+    const rays = W;
+    for (let i = 0; i < rays; i++) {
+      const rayAng = player.dir - FOV / 2 + (i / rays) * FOV;
+      const r = castRay(rayAng);
+      const corrected = r.dist * Math.cos(rayAng - player.dir); // corrige fisheye
+      zbuffer[i] = corrected;
+      const wallH = Math.min(H, (H / corrected));
+      const y0 = (H - wallH) / 2;
+      // sombreamento por distância e por lado
+      const shade = Math.max(0.15, 1 - corrected / 12) * (r.side ? 0.7 : 1);
+      const R = (60 * shade) | 0, G = (200 * shade) | 0, B = (150 * shade) | 0;
+      ctx.fillStyle = `rgb(${R},${G},${B})`;
+      ctx.fillRect(i, y0, 1, wallH);
+    }
+
+    // Inimigos (sprites billboard ordenados de trás pra frente)
+    const sorted = enemies.filter(e => e.alive)
+      .map(e => ({ e, d: (e.x - player.x) ** 2 + (e.y - player.y) ** 2 }))
+      .sort((a, b) => b.d - a.d);
+    for (const { e, d } of sorted) {
+      const dx = e.x - player.x, dy = e.y - player.y;
+      const dist = Math.sqrt(d);
+      let ang = Math.atan2(dy, dx) - player.dir;
+      ang = Math.atan2(Math.sin(ang), Math.cos(ang));
+      if (Math.abs(ang) > FOV / 2 + 0.3) continue;
+      const size = Math.min(H, H / dist);
+      const screenX = (0.5 + ang / FOV) * W;
+      const y0 = (H - size) / 2 + size * 0.05;
+      drawEnemy(screenX, y0, size, dist, e);
+    }
+
+    // Arma + muzzle flash
+    drawWeapon();
+  }
+
+  function drawEnemy(cx, top, size, dist, e) {
+    const w = size * 0.6;
+    const x0 = cx - w / 2;
+    // oclusão por parede via zbuffer
+    const startCol = Math.max(0, x0 | 0), endCol = Math.min(W - 1, (x0 + w) | 0);
+    // verifica visibilidade média da coluna central
+    const midCol = Math.min(W - 1, Math.max(0, cx | 0));
+    if (zbuffer[midCol] < dist) return;
+
+    const shade = Math.max(0.25, 1 - dist / 12);
+    const bob = Math.sin(e.wob) * size * 0.03;
+    const flash = e.hit > 0;
+    // corpo
+    ctx.fillStyle = flash ? "#ffffff" : `rgba(${(210*shade)|0},${(60*shade)|0},${(70*shade)|0},1)`;
+    roundRect(x0, top + bob + size * 0.28, w, size * 0.55, size * 0.12);
+    ctx.fill();
+    // cabeça
+    ctx.fillStyle = flash ? "#ffffff" : `rgba(${(230*shade)|0},${(90*shade)|0},${(90*shade)|0},1)`;
+    ctx.beginPath();
+    ctx.arc(cx, top + bob + size * 0.2, size * 0.16, 0, Math.PI * 2);
+    ctx.fill();
+    // olhos
+    if (!flash) {
+      ctx.fillStyle = "#12100c";
+      const es = size * 0.035;
+      ctx.beginPath(); ctx.arc(cx - size*0.06, top+bob+size*0.19, es, 0, 7); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx + size*0.06, top+bob+size*0.19, es, 0, 7); ctx.fill();
+    }
+  }
+
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function drawWeapon() {
+    const gx = W / 2, gy = H;
+    const sway = Math.sin(performance.now() / 300) * 6;
+    // cano
+    ctx.fillStyle = "#1c2230";
+    ctx.fillRect(gx - 28 + sway, gy - 150, 56, 150);
+    ctx.fillStyle = "#2a3346";
+    ctx.fillRect(gx - 18 + sway, gy - 190, 36, 60);
+    ctx.fillStyle = "#3a4a63";
+    ctx.fillRect(gx - 10 + sway, gy - 205, 20, 30);
+    // mãos
+    ctx.fillStyle = "#c98d5a";
+    ctx.fillRect(gx - 50 + sway, gy - 70, 30, 70);
+    ctx.fillRect(gx + 20 + sway, gy - 70, 30, 70);
+    // muzzle flash
+    if (muzzle.t > 0) {
+      ctx.fillStyle = "rgba(255,230,120,0.95)";
+      ctx.beginPath();
+      ctx.arc(gx + sway, gy - 205, 26, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,180,60,0.8)";
+      ctx.beginPath();
+      ctx.arc(gx + sway, gy - 205, 14, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // ---------- Loop principal ----------
+  let last = 0;
+  function loop(now) {
+    if (!running || paused) return;
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    update(dt);
+    if (!running) return;
+    render();
+    requestAnimationFrame(loop);
+  }
+
+  // Tela inicial estática
+  function drawIdle() {
+    ctx.fillStyle = "#0a0a0f";
+    ctx.fillRect(0, 0, W, H);
+  }
+  drawIdle();
+})();
+</script>
+</body>
+</html>
