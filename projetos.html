@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nossos Projetos — QuickLab</title>
+  <title>Projetos Publicados - QuickLab</title>
+  <meta name="description" content="Conheça projetos publicados pela QuickLab e veja exemplos de sites, e-commerce e sistemas criados com código próprio.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23000'/%3E%3Cpath d='M30 30 L50 20 L70 30 L70 60 Q50 80 30 60 Z' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +14,13 @@
       --bg:#fafafa;--bg2:#fff;--bg3:#f5f5f5;--bg4:#f0f0f0;
       --text:#1a1a1a;--text2:#555;--text3:#888;--text4:#aaa;--text5:#ccc;
       --border:rgba(0,0,0,.06);--border2:rgba(0,0,0,.08);--border3:rgba(0,0,0,.12);
-      --accent:#25D366;--accent2:#1ebe5d;--accent-glow:rgba(37,211,102,.3);
+      --accent:#25D366;--accent2:#1ebe5d;--accent-glow:rgba(37,211,102,.3);--card-shadow2:rgba(0,0,0,.07);
     }
     .dark{
       --bg:#0a0a0a;--bg2:#111;--bg3:#141414;--bg4:#1a1a1a;
       --text:#e8e8e8;--text2:#999;--text3:#666;--text4:#555;--text5:#333;
       --border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.08);--border3:rgba(255,255,255,.12);
-      --accent:#25D366;--accent2:#1ebe5d;--accent-glow:rgba(37,211,102,.15);
+      --accent:#25D366;--accent2:#1ebe5d;--accent-glow:rgba(37,211,102,.15);--card-shadow2:rgba(0,0,0,.28);
     }
     *{margin:0;padding:0;box-sizing:border-box;transition:background .5s,color .5s,border-color .5s,box-shadow .5s,transform .3s}
     html{scroll-behavior:smooth}
@@ -104,8 +105,9 @@
       <a href="index.html" class="logo">Quick<b>Lab</b></a>
       <div class="links">
         <a href="index.html">Início</a>
+        <a href="index.html#oferta">Oferta</a>
         <a href="index.html#portfolio">Portfólio</a>
-        <a href="index.html#sobre">Sobre</a>
+        <a href="index.html#pacotes">Pacotes</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
           <span class="icon" id="themeIcon">☀️</span>
         </button>
@@ -116,8 +118,8 @@
 
   <section class="page-hero">
     <div class="container">
-      <h1 class="reveal">Nossos Projetos</h1>
-      <p class="reveal reveal-d1">Cada projeto é uma demonstração prática da qualidade do nosso trabalho. Do conceito ao produto final.</p>
+      <h1 class="reveal">Projetos publicados</h1>
+      <p class="reveal reveal-d1">Exemplos reais de design, desenvolvimento e publicação. Use como referência do nível visual e técnico que sua landing page pode ter.</p>
     </div>
   </section>
 
@@ -126,14 +128,13 @@
       <div class="filter-bar reveal">
         <button class="filter-btn active" onclick="filterProjects('all',this)">Todos</button>
         <button class="filter-btn" onclick="filterProjects('web',this)">Sites</button>
-        <button class="filter-btn" onclick="filterProjects('app',this)">Aplicativos</button>
         <button class="filter-btn" onclick="filterProjects('ecommerce',this)">E-commerce</button>
         <button class="filter-btn" onclick="filterProjects('sistema',this)">Sistemas</button>
       </div>
 
       <div class="proj-grid">
 
-        <a href="https://quicktrek-5a770.web.app/" target="_blank" class="proj-card reveal reveal-d1" data-cat="sistema">
+        <a href="https://quicktrek-5a770.web.app/" target="_blank" rel="noopener" class="proj-card reveal reveal-d1" data-cat="sistema">
           <div class="thumb" style="background:linear-gradient(135deg,#0d1b2a,#1b2838)">
             <div class="bg-icon">&#128666;</div>
             <div class="mock-text">QuickTrek</div>
@@ -148,7 +149,7 @@
           </div>
         </a>
 
-        <a href="https://haereticus-ac69b.web.app/" target="_blank" class="proj-card reveal reveal-d2" data-cat="ecommerce">
+        <a href="https://haereticus-ac69b.web.app/" target="_blank" rel="noopener" class="proj-card reveal reveal-d2" data-cat="ecommerce">
           <div class="thumb" style="background:linear-gradient(135deg,#1a1a1a,#2d2d2d)">
             <div class="bg-icon">&#128085;</div>
             <div class="mock-text" style="font-family:serif;letter-spacing:4px">HÆRETIVS</div>
@@ -163,7 +164,7 @@
           </div>
         </a>
 
-        <div class="proj-card reveal reveal-d1" data-cat="web">
+        <a href="index.html" class="proj-card reveal reveal-d1" data-cat="web">
           <div class="thumb" style="background:linear-gradient(135deg,var(--text),var(--text3))">
             <div class="bg-icon">&#127760;</div>
             <div class="mock-text">QuickLab</div>
@@ -173,10 +174,10 @@
           <div class="info">
             <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
             <h3>QuickLab Website</h3>
-            <p>O próprio site que você está vendo. Design limpo, animações suaves, modo noturno e performance otimizada.</p>
+            <p>O próprio site da QuickLab. Landing page com proposta clara, CTAs para WhatsApp, animações suaves, modo noturno e foco em conversão.</p>
             <div class="status"><span class="dot live"></span> No ar</div>
           </div>
-        </div>
+        </a>
 
         <div class="proj-card reveal reveal-d2" data-cat="sistema">
           <div class="thumb" style="background:linear-gradient(135deg,#0f172a,#1e293b)">
@@ -200,10 +201,10 @@
   <section class="cta-section">
     <div class="container">
       <div class="cta-box reveal">
-        <h2>Quer um projeto assim?</h2>
-        <p>Cada projeto é único. Me conte sua ideia e eu crio algo sob medida para o seu negócio.</p>
+        <h2>Quer uma página com esse nível?</h2>
+        <p>Me conte sua oferta e eu transformo em uma landing page clara, responsiva e pronta para divulgar.</p>
         <div class="btns">
-          <a href="https://wa.me/5541999087024" target="_blank" class="btn btn-wpp">Fale no WhatsApp</a>
+          <a href="https://wa.me/5541999087024?text=Oi%2C%20quero%20uma%20landing%20page" target="_blank" rel="noopener" class="btn btn-wpp">Fale no WhatsApp</a>
           <a href="index.html" class="btn btn-ghost">Voltar ao início</a>
         </div>
       </div>
@@ -212,7 +213,7 @@
 
   <footer>
     <div class="container">
-      <p>&copy; 2026 QuickLab — Todos os projetos são código próprio</p>
+      <p>&copy; 2026 QuickLab - Todos os projetos são código próprio</p>
     </div>
   </footer>
 
