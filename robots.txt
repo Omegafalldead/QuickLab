@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://quicklab-77f90.web.app/sitemap.xml
