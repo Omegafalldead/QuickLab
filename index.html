@@ -3,478 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="QuickLab cria landing pages rápidas e persuasivas, com WhatsApp e chamada para avaliação no Google, para empresas que querem vender mais.">
+  <meta name="description" content="QuickLab oferece manutenção de eletrodomésticos e criação de landing pages profissionais. Escolha o serviço que você precisa.">
   <meta name="theme-color" content="#07140d">
-  <title>QuickLab - Landing Pages que Vendem</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23000'/%3E%3Cpath d='M30 30 L50 20 L70 30 L70 60 Q50 80 30 60 Z' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <title>QuickLab - Escolha seu serviço</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23000'/%3E%3Cpath d='M30 30 L50 20 L70 30 L70 60 Q50 80 30 60 Z' fill='none' stroke='%2325d366' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#f7f8f4;--bg2:#fffef8;--bg3:#eef2e8;--bg4:#e2ebdc;
-      --text:#111913;--text2:#445247;--text3:#6c786e;--text4:#9aa49b;
-      --line:rgba(17,25,19,.08);--line2:rgba(17,25,19,.14);
-      --accent:#25d366;--accent2:#13b850;--accent3:#c8ff64;--ink:#07140d;
-      --card:rgba(255,254,248,.78);--glass:rgba(255,254,248,.66);--shadow:0 24px 70px rgba(15,35,21,.12);
-      --nav-bg:#f7f8f4;--topbar-h:36px;
-    }
-    .dark{
-      --bg:#07100b;--bg2:#0d1811;--bg3:#132018;--bg4:#1c2b20;
-      --text:#f4fff6;--text2:#bfcec3;--text3:#8d9c91;--text4:#5e6c62;
-      --line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.16);
-      --accent:#25d366;--accent2:#42ec7e;--accent3:#c8ff64;--ink:#07140d;
-      --card:rgba(13,24,17,.74);--glass:rgba(13,24,17,.64);--shadow:0 24px 70px rgba(0,0,0,.32);
-      --nav-bg:#07100b;--topbar-h:36px;
-    }
-    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--bg:#f6f8f3;--card:#fffef8;--text:#101913;--muted:#647067;--line:rgba(16,25,19,.1);--green:#25d366;--lime:#c8ff64;--ink:#07140d;--shadow:0 28px 80px rgba(13,37,21,.14)}
+    *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
-    body::before{content:'';position:fixed;inset:0;z-index:-2;background:radial-gradient(circle at 12% 10%,rgba(37,211,102,.2),transparent 34%),radial-gradient(circle at 86% 8%,rgba(200,255,100,.2),transparent 32%),linear-gradient(180deg,var(--bg),var(--bg3));pointer-events:none}
-    body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(17,25,19,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(17,25,19,.04) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.75),transparent 72%);pointer-events:none}
-    ::selection{background:var(--accent);color:var(--ink)}
-    a{color:inherit}
-    .container{max-width:1160px;margin:0 auto;padding:0 24px}
-    .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--accent2);font-size:.72rem;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:14px}
-    .eyebrow::before{content:'';width:28px;height:2px;border-radius:99px;background:var(--accent)}
-    .reveal{opacity:0;transform:translateY(26px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
-    .reveal.visible{opacity:1;transform:translateY(0)}
-    .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}
-    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.4)}70%{box-shadow:0 0 0 12px rgba(37,211,102,0)}}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-    .topbar{position:fixed;top:0;left:0;right:0;z-index:220;height:var(--topbar-h);display:block;background:linear-gradient(90deg,var(--ink),#12331f);color:#fff;text-align:center;font-size:.76rem;font-weight:700;line-height:var(--topbar-h);padding:0 16px;border-bottom:1px solid rgba(255,255,255,.1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .topbar a{color:var(--accent3);text-underline-offset:3px}
-    nav{position:fixed;top:var(--topbar-h);left:0;right:0;z-index:200;padding:16px 0;background:var(--nav-bg);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid var(--line);transition:box-shadow .3s}
-    nav.solid{box-shadow:0 10px 30px rgba(0,0,0,.05)}
-    nav .container{display:flex;align-items:center;justify-content:space-between;gap:18px}
-    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:1.16rem;font-weight:900;letter-spacing:-.5px;color:var(--text)}
-    .logo-mark{width:34px;height:34px;border-radius:11px;background:var(--ink);color:#fff;display:grid;place-items:center;box-shadow:0 12px 28px rgba(37,211,102,.2);position:relative;overflow:hidden}
-    .logo-mark::after{content:'';width:14px;height:14px;border:2px solid var(--accent);border-radius:5px;transform:rotate(45deg)}
-    .logo b{font-weight:400;color:var(--text3)}
-    .links{display:flex;align-items:center;gap:20px}
-    .links a{color:var(--text2);text-decoration:none;font-size:.84rem;font-weight:700;transition:color .25s,transform .25s}
-    .links a:hover{color:var(--text);transform:translateY(-1px)}
-    .theme-toggle{width:39px;height:39px;border:1px solid var(--line2);border-radius:14px;background:var(--glass);color:var(--text);cursor:pointer;display:grid;place-items:center;font-size:1rem;backdrop-filter:blur(10px);transition:transform .25s,border-color .25s}
-    .theme-toggle:hover{transform:rotate(10deg) scale(1.05);border-color:var(--accent)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:14px;padding:13px 22px;font-size:.9rem;font-weight:800;text-decoration:none;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s,border-color .25s,color .25s;white-space:nowrap}
-    .btn-primary{background:var(--accent);color:var(--ink);box-shadow:0 16px 34px rgba(37,211,102,.32)}
-    .btn-primary:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 20px 42px rgba(37,211,102,.38)}
-    .btn-dark{background:var(--text);color:var(--bg)}
-    .btn-dark:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-    .btn-ghost{border:1px solid var(--line2);color:var(--text2);background:var(--glass);backdrop-filter:blur(10px)}
-    .btn-ghost:hover{border-color:var(--accent);color:var(--text);transform:translateY(-2px)}
-    .btn-nav{background:var(--text);color:var(--bg)!important;padding:10px 18px;border-radius:13px}
-
-    .hero{min-height:100vh;display:flex;align-items:center;padding:145px 0 88px;position:relative;overflow:hidden}
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(340px,.88fr);align-items:center;gap:62px}
-    .availability{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid var(--line2);border-radius:999px;background:var(--glass);backdrop-filter:blur(14px);color:var(--text2);font-size:.78rem;font-weight:800;margin-bottom:24px}
-    .availability span{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
-    .hero h1{font-size:clamp(2.55rem,7vw,5.45rem);line-height:.96;letter-spacing:-3.4px;font-weight:900;margin-bottom:24px;max-width:760px}
-    .hero h1 strong{display:inline-block;color:transparent;background:linear-gradient(90deg,var(--accent),var(--accent3));-webkit-background-clip:text;background-clip:text}
-    .hero .sub{font-size:1.08rem;line-height:1.75;color:var(--text2);max-width:610px;margin-bottom:26px}
-    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
-    .proof-row{display:flex;gap:10px;flex-wrap:wrap}
-    .proof-pill{padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.44);border:1px solid var(--line);color:var(--text3);font-size:.78rem;font-weight:700}
-    .dark .proof-pill{background:rgba(255,255,255,.04)}
-
-    .hero-showcase{position:relative;min-height:540px;display:flex;align-items:center;justify-content:center}
-    .browser-card{width:100%;max-width:470px;border-radius:28px;background:linear-gradient(180deg,var(--card),rgba(255,255,255,.5));border:1px solid var(--line2);box-shadow:var(--shadow);overflow:hidden;backdrop-filter:blur(22px);animation:float 7s ease-in-out infinite}
-    .dark .browser-card{background:linear-gradient(180deg,var(--card),rgba(13,24,17,.42))}
-    .browser-top{height:46px;display:flex;align-items:center;gap:7px;padding:0 18px;border-bottom:1px solid var(--line)}
-    .browser-top span{width:10px;height:10px;border-radius:50%;background:var(--line2)}
-    .browser-top span:nth-child(1){background:#ff5f57}.browser-top span:nth-child(2){background:#febc2e}.browser-top span:nth-child(3){background:#28c840}
-    .mini-page{padding:24px}
-    .mini-hero{border-radius:22px;background:linear-gradient(135deg,#07140d,#174525 62%,#25d366);padding:32px 26px;color:#fff;min-height:250px;position:relative;overflow:hidden}
-    .mini-hero::after{content:'';position:absolute;right:-34px;bottom:-34px;width:150px;height:150px;border-radius:50%;border:28px solid rgba(200,255,100,.18)}
-    .mini-label{display:inline-flex;padding:7px 11px;border-radius:99px;background:rgba(255,255,255,.14);font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:30px}
-    .mini-title{font-size:2.05rem;line-height:.98;letter-spacing:-1.2px;font-weight:900;max-width:300px;margin-bottom:14px}
-    .mini-copy{color:rgba(255,255,255,.76);font-size:.8rem;line-height:1.5;max-width:250px;margin-bottom:22px}
-    .mini-button{display:inline-flex;background:var(--accent3);color:#0d180f;font-size:.76rem;font-weight:900;padding:10px 14px;border-radius:12px}
-    .mini-blocks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-    .mini-block{height:92px;border:1px solid var(--line);border-radius:18px;background:var(--bg2);padding:16px}
-    .mini-block b{display:block;font-size:1.3rem;margin-bottom:4px}.mini-block small{color:var(--text3);font-weight:700}
-    .floating-note{position:absolute;right:0;top:58px;width:190px;background:var(--bg2);border:1px solid var(--line2);border-radius:18px;padding:16px;box-shadow:0 20px 44px rgba(0,0,0,.12)}
-    .floating-note b{display:block;font-size:.84rem;margin-bottom:5px}.floating-note p{color:var(--text3);font-size:.72rem;line-height:1.45}
-    .floating-price{position:absolute;left:0;bottom:70px;background:var(--ink);color:#fff;border-radius:20px;padding:18px 20px;box-shadow:0 18px 40px rgba(0,0,0,.24)}
-    .floating-price small{display:block;color:rgba(255,255,255,.58);font-weight:700;margin-bottom:4px}.floating-price b{font-size:1.5rem;color:var(--accent3)}
-
-    .ticker{background:var(--ink);color:#fff;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);overflow:hidden;white-space:nowrap}
-    .ticker-track{display:flex;width:max-content;animation:ticker 24s linear infinite}
-    .ticker span{display:inline-flex;align-items:center;gap:20px;padding:18px 24px;color:rgba(255,255,255,.72);font-size:.78rem;font-weight:900;letter-spacing:1.3px;text-transform:uppercase}
-    .ticker i{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block}
-
-    section{padding:104px 0}
-    .section-head{display:flex;align-items:end;justify-content:space-between;gap:32px;margin-bottom:44px}
-    .section-head h2,section h2{font-size:clamp(2rem,4vw,3.2rem);line-height:1.05;letter-spacing:-1.6px;font-weight:900}
-    .section-head p,.lead{color:var(--text2);line-height:1.72;font-size:.98rem;max-width:520px}
-
-    #oferta{background:linear-gradient(180deg,transparent,rgba(255,255,255,.35))}
-    .offer-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:stretch}
-    .offer-card{border:1px solid var(--line);border-radius:26px;background:var(--card);padding:32px;box-shadow:0 16px 50px rgba(15,35,21,.08);backdrop-filter:blur(16px)}
-    .offer-card.featured{background:var(--ink);color:#fff;position:relative;overflow:hidden}
-    .offer-card.featured::before{content:'';position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(37,211,102,.18)}
-    .offer-card h3{font-size:1.4rem;letter-spacing:-.6px;margin-bottom:10px;position:relative}
-    .offer-card p{color:var(--text2);line-height:1.7;font-size:.92rem;position:relative}
-    .offer-card.featured p{color:rgba(255,255,255,.72)}
-    .deliverables{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:28px;position:relative}
-    .deliverables li{list-style:none;padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.45);color:var(--text2);font-size:.84rem;font-weight:700}
-    .offer-card.featured .deliverables li{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.82)}
-    .price-box{margin-top:30px;padding:24px;border-radius:22px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);position:relative}
-    .price-box small{display:block;color:rgba(255,255,255,.6);font-weight:800;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
-    .price-box .price{font-size:2.3rem;font-weight:900;color:var(--accent3);letter-spacing:-1px;margin-bottom:14px}
-    .price-box .btn{width:100%}
-
-    .benefit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .benefit{padding:28px;border:1px solid var(--line);border-radius:24px;background:var(--card);transition:transform .25s,border-color .25s,box-shadow .25s}
-    .benefit:hover{transform:translateY(-5px);border-color:var(--line2);box-shadow:var(--shadow)}
-    .benefit .icon{width:46px;height:46px;border-radius:15px;background:var(--ink);color:var(--accent3);display:grid;place-items:center;font-weight:900;margin-bottom:18px}
-    .benefit h3{font-size:1.05rem;margin-bottom:9px;letter-spacing:-.3px}.benefit p{color:var(--text2);font-size:.86rem;line-height:1.65}
-
-    #portfolio{background:var(--bg2)}
-    .portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
-    .portfolio-card{display:block;background:var(--bg3);border:1px solid var(--line);border-radius:24px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .28s,box-shadow .28s,border-color .28s}
-    .portfolio-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--line2)}
-    .portfolio-card .thumb{height:240px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-direction:column;gap:6px;color:#fff}
-    .portfolio-card .thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 10%,rgba(255,255,255,.18),transparent 38%)}
-    .portfolio-card .mock-text{font-size:2.1rem;font-weight:900;letter-spacing:-.8px;position:relative;z-index:1}.portfolio-card .mock-sub{font-size:.76rem;color:rgba(255,255,255,.62);position:relative;z-index:1}
-    .portfolio-card .overlay{position:absolute;inset:0;background:rgba(0,0,0,.58);display:grid;place-items:center;opacity:0;transition:opacity .25s}.portfolio-card:hover .overlay{opacity:1}.portfolio-card .overlay span{border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 22px;color:#fff;font-weight:800;font-size:.84rem}
-    .portfolio-card .info{padding:26px}.tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}.tags span{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:5px 10px;color:var(--text3);font-size:.67rem;font-weight:800}
-    .portfolio-card h3{font-size:1.17rem;margin-bottom:7px}.portfolio-card p{color:var(--text2);font-size:.86rem;line-height:1.65}
-    .portfolio-more{text-align:center;margin-top:34px}
-
-    .process-wrap{display:grid;grid-template-columns:.75fr 1.25fr;gap:36px;align-items:start}
-    .timeline{display:grid;gap:14px}
-    .step{display:grid;grid-template-columns:48px 1fr;gap:16px;padding:22px;border:1px solid var(--line);border-radius:22px;background:var(--card)}
-    .step .num{width:48px;height:48px;border-radius:17px;background:var(--ink);color:var(--accent3);display:grid;place-items:center;font-weight:900}.step h3{font-size:1rem;margin-bottom:5px}.step p{color:var(--text2);font-size:.84rem;line-height:1.6}
-    .process-panel{position:sticky;top:120px;padding:30px;border-radius:28px;background:linear-gradient(135deg,var(--ink),#14391f);color:#fff;box-shadow:var(--shadow);overflow:hidden}
-    .process-panel::after{content:'';position:absolute;right:-60px;bottom:-80px;width:220px;height:220px;border-radius:50%;border:34px solid rgba(37,211,102,.16)}
-    .process-panel h2{font-size:2.2rem;margin-bottom:18px;position:relative}.process-panel p{color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:22px;position:relative}
-
-    #pacotes{background:var(--bg2)}
-    .plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:780px;margin:0 auto}
-    .plan{padding:28px;border-radius:26px;border:1px solid var(--line);background:var(--card);position:relative;transition:transform .25s,border-color .25s,box-shadow .25s}
-    .plan:hover{transform:translateY(-5px);border-color:var(--line2);box-shadow:var(--shadow)}
-    .plan h3{font-size:1.25rem;margin-bottom:10px}.plan .plan-price{font-size:2rem;font-weight:900;letter-spacing:-1px;margin:18px 0;color:var(--accent2)}
-    .plan p{color:var(--text2);font-size:.86rem;line-height:1.6}
-    .plan ul{display:grid;gap:12px;margin:24px 0}.plan li{list-style:none;color:var(--text2);font-size:.84rem;line-height:1.45}.plan li::before{content:'✓';color:var(--accent);font-weight:900;margin-right:8px}
-
-    #faq{background:var(--bg)}
-    .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    details{border:1px solid var(--line);border-radius:20px;background:var(--card);padding:20px 22px}summary{cursor:pointer;font-weight:850;letter-spacing:-.2px}details p{color:var(--text2);font-size:.86rem;line-height:1.65;margin-top:12px}
-
-    .cta{padding:110px 0;text-align:center}.cta-box{background:linear-gradient(135deg,var(--ink),#12371e 70%,#1f642f);color:#fff;border-radius:34px;padding:72px 42px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-    .cta-box::before{content:'';position:absolute;inset:auto auto -120px -100px;width:340px;height:340px;border-radius:50%;background:rgba(37,211,102,.17)}.cta-box::after{content:'';position:absolute;top:-120px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(200,255,100,.14)}
-    .cta-box h2{position:relative;font-size:clamp(2rem,5vw,3.8rem);max-width:760px;margin:0 auto 16px}.cta-box p{position:relative;color:rgba(255,255,255,.72);line-height:1.7;max-width:560px;margin:0 auto 30px}.cta-actions{position:relative;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.cta-box .btn-ghost{color:#fff;border-color:rgba(255,255,255,.26);background:rgba(255,255,255,.08)}
-
-    footer{border-top:1px solid var(--line);padding:44px 0}.footer-grid{display:grid;grid-template-columns:1fr auto auto;gap:28px;align-items:center}.f-brand{font-size:1.1rem;font-weight:900}.f-brand b{font-weight:400;color:var(--text3)}.f-links{display:flex;gap:18px;flex-wrap:wrap}.f-links a{color:var(--text3);text-decoration:none;font-size:.82rem;font-weight:700}.f-links a:hover{color:var(--text)}.f-copy{font-size:.76rem;color:var(--text4);text-align:right}
-    .float-wpp{position:fixed;right:22px;bottom:22px;z-index:250;width:56px;height:56px;border-radius:50%;background:var(--accent);display:grid;place-items:center;box-shadow:0 14px 32px rgba(37,211,102,.38);transition:transform .25s,box-shadow .25s}.float-wpp:hover{transform:scale(1.08) translateY(-2px);box-shadow:0 18px 42px rgba(37,211,102,.48)}.float-wpp svg{width:26px;height:26px;fill:#fff}
-
-    @media(max-width:1040px){.hero{min-height:auto}.hero-grid,.offer-grid,.process-wrap{grid-template-columns:1fr}.hero-showcase{min-height:470px}.browser-card{max-width:540px}.process-panel{position:relative;top:auto}.benefit-grid,.plans{grid-template-columns:1fr 1fr}.section-head{display:block}.section-head p{margin-top:14px}.floating-note{right:30px}.floating-price{left:30px}}
-    @media(max-width:720px){.container{padding:0 18px}.topbar{font-size:.68rem}.links a:not(.btn-nav){display:none}nav{padding:12px 0}.btn-nav{padding:9px 13px}.hero{padding:126px 0 62px}.hero h1{letter-spacing:-2px}.hero-showcase{min-height:auto;margin-top:18px}.floating-note,.floating-price{display:none}.browser-card{animation:none}.mini-page{padding:16px}.mini-hero{padding:26px 20px}.mini-title{font-size:1.7rem}.mini-blocks,.deliverables,.portfolio-grid,.benefit-grid,.plans,.faq-grid{grid-template-columns:1fr}section{padding:76px 0}.offer-card,.plan,.benefit{padding:24px}.portfolio-card .thumb{height:205px}.process-panel h2{font-size:1.8rem}.step{grid-template-columns:40px 1fr;padding:18px}.step .num{width:40px;height:40px;border-radius:14px}.cta{padding:76px 0}.cta-box{padding:52px 22px;border-radius:26px}.footer-grid{grid-template-columns:1fr;text-align:center}.f-links{justify-content:center}.f-copy{text-align:center}.float-wpp{width:52px;height:52px;right:16px;bottom:16px}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,.reveal{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+    body{min-height:100vh;font-family:'Inter',sans-serif;background:radial-gradient(circle at 12% 12%,rgba(37,211,102,.18),transparent 32%),radial-gradient(circle at 88% 14%,rgba(200,255,100,.22),transparent 30%),var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+    body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(16,25,19,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(16,25,19,.035) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(to bottom,#000,transparent 80%)}
+    a{color:inherit}.container{width:min(1160px,calc(100% - 40px));margin:auto}
+    nav{height:82px;display:flex;align-items:center;border-bottom:1px solid var(--line);background:rgba(246,248,243,.76);backdrop-filter:blur(18px)}
+    nav .container{display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .logo{display:flex;align-items:center;gap:11px;text-decoration:none;font-size:1.18rem;font-weight:900;letter-spacing:-.6px}
+    .logo-mark{width:36px;height:36px;border-radius:12px;background:var(--ink);display:grid;place-items:center;box-shadow:0 12px 28px rgba(37,211,102,.22)}
+    .logo-mark::after{content:'';width:14px;height:14px;border:2px solid var(--green);border-radius:5px;transform:rotate(45deg)}
+    .logo b{font-weight:400;color:var(--muted)}.direct{font-size:.82rem;font-weight:700;color:var(--muted)}.direct a{color:var(--text);text-underline-offset:4px}
+    main{min-height:calc(100vh - 164px);display:grid;align-items:center;padding:76px 0}
+    .intro{text-align:center;max-width:820px;margin:0 auto 42px}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.54);font-size:.75rem;font-weight:800;color:var(--muted);margin-bottom:20px}
+    .eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 6px rgba(37,211,102,.11)}
+    h1{font-size:clamp(2.55rem,6vw,5.2rem);line-height:.97;letter-spacing:-3.4px;font-weight:900;margin-bottom:19px}
+    h1 span{color:transparent;background:linear-gradient(90deg,var(--green),#78d836);-webkit-background-clip:text;background-clip:text}
+    .intro p{max-width:650px;margin:auto;color:var(--muted);font-size:1.02rem;line-height:1.75}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .choice{position:relative;min-height:370px;padding:34px;border:1px solid var(--line);border-radius:30px;background:rgba(255,254,248,.82);box-shadow:0 15px 50px rgba(15,35,21,.08);overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .28s,box-shadow .28s,border-color .28s}
+    .choice:hover{transform:translateY(-7px);box-shadow:var(--shadow);border-color:rgba(37,211,102,.4)}
+    .choice.primary{background:linear-gradient(145deg,var(--ink),#12371e 72%,#1d5c2d);color:#fff}
+    .choice.primary::after{content:'';position:absolute;width:280px;height:280px;border-radius:50%;right:-110px;bottom:-120px;border:42px solid rgba(37,211,102,.18)}
+    .choice.secondary::after{content:'';position:absolute;width:230px;height:230px;border-radius:50%;right:-90px;top:-100px;background:rgba(200,255,100,.25)}
+    .icon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:var(--lime);color:var(--ink);font-weight:900;font-size:1.35rem;margin-bottom:66px;position:relative;z-index:1}
+    .secondary .icon{background:var(--ink);color:var(--lime)}
+    .label{font-size:.7rem;font-weight:900;letter-spacing:1.7px;text-transform:uppercase;color:var(--green);margin-bottom:10px;position:relative;z-index:1}
+    .choice h2{font-size:clamp(1.65rem,3vw,2.35rem);letter-spacing:-1.2px;line-height:1.05;margin-bottom:12px;position:relative;z-index:1}
+    .choice p{max-width:480px;color:var(--muted);font-size:.91rem;line-height:1.65;position:relative;z-index:1}.primary p{color:rgba(255,255,255,.68)}
+    .action{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:auto;padding-top:28px;font-size:.86rem;font-weight:900;position:relative;z-index:1}
+    .arrow{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--green);color:var(--ink);font-size:1.2rem;transition:transform .25s}.choice:hover .arrow{transform:translateX(4px)}.secondary .arrow{background:var(--ink);color:#fff}
+    footer{min-height:82px;display:flex;align-items:center;border-top:1px solid var(--line);color:var(--muted);font-size:.76rem}footer .container{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}footer a{text-decoration:none;font-weight:700}
+    @media(max-width:760px){nav{height:72px}.direct{display:none}main{padding:52px 0}.container{width:min(100% - 32px,1160px)}h1{letter-spacing:-2px}.intro{margin-bottom:30px}.choices{grid-template-columns:1fr}.choice{min-height:320px;padding:27px}.icon{margin-bottom:42px}footer{padding:24px 0}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
 <body>
-  <div class="topbar">
-    Site + avaliação no Google a partir de R$ 400. <a href="https://wa.me/5541999087024?text=Oi%2C%20quero%20uma%20landing%20page%20para%20meu%20negocio" target="_blank" rel="noopener">Orçamento no WhatsApp</a>
-  </div>
-
-  <nav id="nav">
-    <div class="container">
-      <a href="#" class="logo" aria-label="QuickLab"><span class="logo-mark"></span>Quick<b>Lab</b></a>
-      <div class="links">
-        <a href="#oferta">Oferta</a>
-        <a href="#portfolio">Portfólio</a>
-        <a href="#processo">Processo</a>
-        <a href="#pacotes">Pacotes</a>
-        <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema"><span class="icon" id="themeIcon">☀️</span></button>
-        <a href="#contato" class="btn-nav">Orçamento</a>
-      </div>
-    </div>
-  </nav>
-
+  <nav><div class="container"><a href="index.html" class="logo" aria-label="QuickLab"><span class="logo-mark"></span>Quick<b>Lab</b></a><div class="direct">Já sabe o que precisa? <a href="https://wa.me/5541999087024?text=Oi%2C%20vim%20pelo%20site%20da%20QuickLab" target="_blank" rel="noopener">Fale no WhatsApp</a></div></div></nav>
   <main>
-    <section class="hero" id="inicio">
-      <div class="container">
-        <div class="hero-grid">
-          <div>
-            <div class="availability reveal"><span></span> Site + avaliação no Google por R$ 400</div>
-            <h1 class="reveal reveal-d1">Landing pages que transformam cliques em <strong>clientes</strong>.</h1>
-            <p class="sub reveal reveal-d2">Eu crio páginas rápidas, bonitas e persuasivas para você divulgar serviços, rodar tráfego pago, captar leads e vender pelo WhatsApp com mais profissionalismo.</p>
-            <div class="hero-actions reveal reveal-d3">
-              <a href="https://wa.me/5541999087024?text=Oi%2C%20quero%20uma%20landing%20page%20para%20minha%20empresa" target="_blank" rel="noopener" class="btn btn-primary">Quero minha landing page</a>
-              <a href="#portfolio" class="btn btn-ghost">Ver exemplos</a>
-            </div>
-            <div class="proof-row reveal reveal-d4">
-              <div class="proof-pill">Design exclusivo</div>
-              <div class="proof-pill">Pronta para celular</div>
-              <div class="proof-pill">CTA para WhatsApp</div>
-              <div class="proof-pill">Publicação inclusa</div>
-            </div>
-          </div>
-
-          <div class="hero-showcase reveal reveal-d2" aria-label="Prévia de uma landing page">
-            <div class="browser-card">
-              <div class="browser-top"><span></span><span></span><span></span></div>
-              <div class="mini-page">
-                <div class="mini-hero">
-                  <div class="mini-label">Campanha ativa</div>
-                  <div class="mini-title">Sua oferta em destaque</div>
-                  <p class="mini-copy">Mensagem clara, prova de valor e botão direto para receber contatos.</p>
-                  <div class="mini-button">Chamar no WhatsApp</div>
-                </div>
-                <div class="mini-blocks">
-                  <div class="mini-block"><b>+ Leads</b><small>Formulário ou WhatsApp</small></div>
-                  <div class="mini-block"><b>SEO</b><small>Base técnica pronta</small></div>
-                </div>
-              </div>
-            </div>
-            <div class="floating-note"><b>Feita para vender</b><p>Copy, visual e estrutura pensados para reduzir dúvidas e gerar ação.</p></div>
-            <div class="floating-price"><small>a partir de</small><b>R$ 400</b></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker-track">
-        <span>Landing Pages <i></i> Tráfego Pago <i></i> WhatsApp <i></i> Captação de Leads <i></i> Design Responsivo <i></i> Performance <i></i> SEO Técnico <i></i></span>
-        <span>Landing Pages <i></i> Tráfego Pago <i></i> WhatsApp <i></i> Captação de Leads <i></i> Design Responsivo <i></i> Performance <i></i> SEO Técnico <i></i></span>
-      </div>
-    </div>
-
-    <section id="oferta">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow reveal">O que eu entrego</div>
-            <h2 class="reveal reveal-d1">Uma página completa para sua campanha sair do improviso.</h2>
-          </div>
-          <p class="reveal reveal-d2">Sua landing page precisa explicar rápido, passar confiança e levar a pessoa para o próximo passo. O projeto é construído com esse foco desde a primeira dobra.</p>
-        </div>
-        <div class="offer-grid">
-          <div class="offer-card featured reveal reveal-d1">
-            <h3>Site + avaliação no Google</h3>
-            <p>Ideal para prestadores de serviço, lançamentos, eventos, clínicas, consultorias, lojas locais e negócios que querem divulgar uma oferta específica.</p>
-            <ul class="deliverables">
-              <li>Copy clara e orientada a conversão</li>
-              <li>Visual exclusivo para sua marca</li>
-              <li>Botões para WhatsApp e avaliação no Google</li>
-              <li>Publicação em domínio ou hospedagem</li>
-              <li>Layout responsivo para celular</li>
-              <li>Otimização de velocidade e SEO básico</li>
-            </ul>
-            <div class="price-box">
-              <small>Investimento inicial</small>
-              <div class="price">R$ 400</div>
-              <a href="https://wa.me/5541999087024?text=Oi%2C%20quero%20saber%20sobre%20o%20site%20com%20avaliacao%20no%20Google%20por%20R%24%20400" target="_blank" rel="noopener" class="btn btn-primary">Falar sobre meu projeto</a>
-            </div>
-          </div>
-          <div class="offer-card reveal reveal-d2">
-            <h3>Por que isso importa?</h3>
-            <p>Mandar tráfego para perfil de rede social, catálogo bagunçado ou página genérica faz você perder oportunidades. Uma landing page cria um caminho direto: atenção, interesse, confiança e contato.</p>
-            <ul class="deliverables">
-              <li>Mostra sua oferta sem distrações</li>
-              <li>Aumenta a confiança antes do contato</li>
-              <li>Funciona melhor em anúncios pagos</li>
-              <li>Facilita medir resultados da campanha</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="beneficios">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow reveal">Benefícios</div>
-            <h2 class="reveal reveal-d1">Bonita por fora. Pensada por dentro.</h2>
-          </div>
-          <p class="reveal reveal-d2">Não é só estética. Cada bloco tem uma função: prender atenção, explicar a oferta, responder objeções e direcionar para o contato.</p>
-        </div>
-        <div class="benefit-grid">
-          <div class="benefit reveal reveal-d1"><div class="icon">01</div><h3>Mensagem que fica clara</h3><p>Organizo sua oferta para o visitante entender em segundos o que você faz, para quem é e por que vale a pena chamar.</p></div>
-          <div class="benefit reveal reveal-d2"><div class="icon">02</div><h3>Visual com autoridade</h3><p>Uma presença profissional melhora a percepção do seu negócio antes mesmo da primeira conversa.</p></div>
-          <div class="benefit reveal reveal-d3"><div class="icon">03</div><h3>Contato sem atrito</h3><p>Botões, formulários e chamadas posicionados para facilitar o lead ir direto para o WhatsApp ou email.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="portfolio">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow reveal">Portfólio</div>
-            <h2 class="reveal reveal-d1">Projetos recentes</h2>
-          </div>
-          <p class="reveal reveal-d2">Alguns exemplos de produtos digitais já publicados. Posso adaptar o nível de complexidade para uma landing page simples ou uma solução mais completa.</p>
-        </div>
-        <div class="portfolio-grid">
-          <a href="https://quicktrek-5a770.web.app/" target="_blank" rel="noopener" class="portfolio-card reveal reveal-d1">
-            <div class="thumb" style="background:linear-gradient(135deg,#0d1b2a,#1b2838)">
-              <div class="mock-text">QuickTrek</div>
-              <div class="mock-sub">Rastreamento e manutenção de frota</div>
-              <div class="overlay"><span>Acessar projeto</span></div>
-            </div>
-            <div class="info">
-              <div class="tags"><span>React</span><span>Node.js</span><span>Firebase</span><span>Google Maps</span></div>
-              <h3>QuickTrek</h3>
-              <p>Plataforma para odometria, manutenção preventiva e visualização de frota em mapa.</p>
-            </div>
-          </a>
-          <a href="https://haereticus-ac69b.web.app/" target="_blank" rel="noopener" class="portfolio-card reveal reveal-d2">
-            <div class="thumb" style="background:linear-gradient(135deg,#151515,#343434)">
-              <div class="mock-text" style="font-family:serif;letter-spacing:4px">HÆRETIVS</div>
-              <div class="mock-sub">E-commerce de camisetas e hoodies</div>
-              <div class="overlay"><span>Acessar projeto</span></div>
-            </div>
-            <div class="info">
-              <div class="tags"><span>E-commerce</span><span>React</span><span>Firebase</span><span>PagBank</span></div>
-              <h3>HÆRETIVS</h3>
-              <p>Loja online com catálogo, carrinho, favoritos, pagamento e integração de produção.</p>
-            </div>
-          </a>
-        </div>
-        <div class="portfolio-more reveal">
-          <a href="projetos.html" class="btn btn-ghost">Ver todos os projetos</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="processo">
-      <div class="container">
-        <div class="process-wrap">
-          <div class="process-panel reveal">
-            <div class="eyebrow">Processo</div>
-            <h2>Do briefing ao link publicado.</h2>
-            <p>Você não precisa saber termos técnicos. Eu guio o processo, organizo as informações e entrego a página pronta para divulgar.</p>
-            <a href="https://wa.me/5541999087024?text=Oi%2C%20quero%20entender%20como%20funciona%20a%20criacao%20da%20landing%20page" target="_blank" rel="noopener" class="btn btn-primary">Começar pelo WhatsApp</a>
-          </div>
-          <div class="timeline">
-            <div class="step reveal reveal-d1"><div class="num">1</div><div><h3>Diagnóstico rápido</h3><p>Entendo seu negócio, objetivo da campanha, público e oferta principal.</p></div></div>
-            <div class="step reveal reveal-d2"><div class="num">2</div><div><h3>Estrutura e texto</h3><p>Defino a ordem das seções e transformo suas informações em uma mensagem persuasiva.</p></div></div>
-            <div class="step reveal reveal-d3"><div class="num">3</div><div><h3>Design e desenvolvimento</h3><p>Crio a página com visual próprio, responsiva e leve para carregar rápido.</p></div></div>
-            <div class="step reveal reveal-d4"><div class="num">4</div><div><h3>Publicação e ajustes</h3><p>Publico a página, conecto botões de contato e faço os ajustes finais combinados.</p></div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="pacotes">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow reveal">Pacotes</div>
-            <h2 class="reveal reveal-d1">Escolha o ponto de partida.</h2>
-          </div>
-          <p class="reveal reveal-d2">Os valores podem mudar conforme complexidade, quantidade de seções, integrações e urgência. O orçamento final é combinado antes de começar.</p>
-        </div>
-        <div class="plans">
-          <div class="plan reveal reveal-d1">
-            <h3>Inicial: site + Google</h3>
-            <p>Para começar com um site profissional e incentivar clientes a avaliarem sua empresa no Google.</p>
-            <div class="plan-price">R$ 400</div>
-            <ul>
-              <li>Site one-page profissional</li>
-              <li>Até 5 seções</li>
-              <li>Botão para WhatsApp</li>
-              <li>Chamada para avaliação no Google</li>
-              <li>Publicação inclusa</li>
-            </ul>
-            <a href="https://wa.me/5541999087024?text=Oi%2C%20tenho%20interesse%20no%20pacote%20Inicial%20de%20R%24%20400%20com%20site%20e%20avaliacao%20no%20Google" target="_blank" rel="noopener" class="btn btn-ghost">Pedir orçamento</a>
-          </div>
-          <div class="plan reveal reveal-d2">
-            <h3>Personalizado</h3>
-            <p>Para quem precisa de integração, formulário, catálogo ou recursos extras.</p>
-            <div class="plan-price">Sob consulta</div>
-            <ul>
-              <li>Estrutura personalizada</li>
-              <li>Integrações e automações</li>
-              <li>Formulários ou catálogo</li>
-              <li>Solução além da landing page</li>
-            </ul>
-            <a href="https://wa.me/5541999087024?text=Oi%2C%20preciso%20de%20um%20plano%20personalizado" target="_blank" rel="noopener" class="btn btn-ghost">Conversar sobre ideia</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow reveal">Dúvidas</div>
-            <h2 class="reveal reveal-d1">Perguntas frequentes</h2>
-          </div>
-        </div>
-        <div class="faq-grid">
-          <details class="reveal reveal-d1"><summary>Em quanto tempo fica pronta?</summary><p>Depende da complexidade e da velocidade de envio das informações, mas uma landing page simples normalmente pode ser entregue em poucos dias úteis.</p></details>
-          <details class="reveal reveal-d2"><summary>Preciso ter domínio?</summary><p>Não obrigatoriamente. Posso publicar em uma hospedagem temporária ou orientar a compra/configuração de domínio próprio.</p></details>
-          <details class="reveal reveal-d3"><summary>Você usa template pronto?</summary><p>Não. A página é criada para sua oferta, sua marca e seu objetivo. Posso usar referências visuais, mas o resultado é personalizado.</p></details>
-          <details class="reveal reveal-d4"><summary>A página funciona no celular?</summary><p>Sim. O layout é desenvolvido para desktop e mobile, com atenção especial ao celular porque boa parte dos acessos vem de anúncios e redes sociais.</p></details>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta" id="contato">
-      <div class="container">
-        <div class="cta-box reveal">
-          <h2>Sua próxima campanha merece uma página melhor.</h2>
-          <p>Me chama no WhatsApp, conta o que você vende e eu te digo qual estrutura faz mais sentido para sua landing page.</p>
-          <div class="cta-actions">
-            <a href="https://wa.me/5541999087024?text=Oi%2C%20quero%20criar%20uma%20landing%20page" target="_blank" rel="noopener" class="btn btn-primary">Chamar no WhatsApp</a>
-            <a href="mailto:quicklaboratory777@gmail.com" class="btn btn-ghost">quicklaboratory777@gmail.com</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
     <div class="container">
-      <div class="footer-grid">
-        <div class="f-brand">Quick<b>Lab</b></div>
-        <div class="f-links">
-          <a href="https://www.facebook.com/profile.php?id=61577555251016&locale=pt_BR" target="_blank" rel="noopener">Facebook</a>
-          <a href="mailto:quicklaboratory777@gmail.com">Email</a>
-          <a href="https://wa.me/5541999087024" target="_blank" rel="noopener">WhatsApp</a>
-          <a href="projetos.html">Projetos</a>
-        </div>
-        <div class="f-copy">&copy; 2026 QuickLab</div>
+      <div class="intro"><div class="eyebrow"><i></i> Dois serviços. Dois atendimentos especializados.</div><h1>Como a QuickLab pode <span>ajudar você?</span></h1><p>Escolha uma área para acessar informações, etapas do serviço e um orçamento específico para o que você precisa.</p></div>
+      <div class="choices">
+        <a href="manutencao.html" class="choice primary"><div class="icon" aria-hidden="true">01</div><div class="label">Assistência técnica</div><h2>Manutenção de eletrodomésticos</h2><p>Diagnóstico e reparo de aparelhos, com atendimento direto e orçamento informado antes do serviço.</p><div class="action"><span>Acessar área de manutenção</span><span class="arrow">→</span></div></a>
+        <a href="landing-pages.html" class="choice secondary"><div class="icon" aria-hidden="true">02</div><div class="label">Soluções digitais</div><h2>Criação de landing pages</h2><p>Páginas profissionais, rápidas e responsivas para apresentar sua oferta e gerar contatos pelo WhatsApp.</p><div class="action"><span>Acessar área de landing pages</span><span class="arrow">→</span></div></a>
       </div>
     </div>
-  </footer>
-
-  <a href="https://wa.me/5541999087024?text=Oi%2C%20quero%20uma%20landing%20page" target="_blank" rel="noopener" class="float-wpp" aria-label="WhatsApp">
-    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.49l4.626-1.46A11.937 11.937 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-2.07 0-4-.573-5.665-1.572l-.406-.246-2.734.867.89-2.646-.295-.465A9.77 9.77 0 012.182 12c0-5.418 4.4-9.818 9.818-9.818S21.818 6.582 21.818 12s-4.4 9.818-9.818 9.818z"/></svg>
-  </a>
-
-  <script>
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible') })
-    }, { threshold: .08 })
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
-
-    const nav = document.getElementById('nav')
-    const updateNav = () => nav.classList.toggle('solid', window.scrollY > 80)
-    updateNav()
-    window.addEventListener('scroll', updateNav, { passive: true })
-
-    const toggle = document.getElementById('themeToggle')
-    const icon = document.getElementById('themeIcon')
-    const saved = localStorage.getItem('theme')
-    if (saved === 'dark') { document.body.classList.add('dark'); icon.textContent = '🌙' }
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark')
-      const isDark = document.body.classList.contains('dark')
-      icon.textContent = isDark ? '🌙' : '☀️'
-      localStorage.setItem('theme', isDark ? 'dark' : 'light')
-      icon.style.transform = 'rotate(360deg) scale(0)'
-      setTimeout(() => { icon.style.transform = 'rotate(0) scale(1)' }, 260)
-    })
-  </script>
+  </main>
+  <footer><div class="container"><span>&copy; 2026 QuickLab</span><span><a href="mailto:quicklaboratory777@gmail.com">quicklaboratory777@gmail.com</a></span></div></footer>
 </body>
 </html>
